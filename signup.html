@@ -106,8 +106,8 @@
       }
 
       const url = type === "organizer"
-        ? "http://localhost:5000/registerOrganizer"
-        : "http://localhost:5000/register";
+        ? "https://occasio-production.up.railway.app/registerOrganizer"
+        : "https://occasio-production.up.railway.app/register";
 
       try {
         const res = await fetch(url, {
@@ -137,7 +137,7 @@
             window.location.href =
               type === "organizer"
                 ? "organizer-dashboard.html"
-                : "home.html";
+                : "index.html";
           }, 1500);
         } else {
           message.textContent = data.message || "❌ Signup failed.";

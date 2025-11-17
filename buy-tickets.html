@@ -355,7 +355,7 @@ nav ul li a.active {
     <!-- center links -->
     <nav>
       <ul>
-        <li><a href="home.html"><h4>HOME</h4></a></li>
+        <li><a href="index.html"><h4>HOME</h4></a></li>
         <li><a href="activities.html" class="nav-link active"><h4>ACTIVITIES</h4></a></li>
         <li><a href="events.html"><h4>EVENTS</h4></a></li>
         <li><a href="about.html"><h4>ABOUT</h4></a></li>        
@@ -576,7 +576,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ 4. Load Events
   async function loadEvents() {
     try {
-      const res = await fetch("http://localhost:5000/getAllEvents");
+      const res = await fetch("https://occasio-production.up.railway.app/getAllEvents");
       const events = await res.json();
       console.log("✅ Events fetched:", events);
 
@@ -651,7 +651,7 @@ eventSelect.addEventListener("change", () => {
 // ✅ Preselect if event_id param exists
 async function loadEvents() {
   try {
-    const res = await fetch("http://localhost:5000/getAllEvents");
+    const res = await fetch("https://occasio-production.up.railway.app/getAllEvents");
     const events = await res.json();
     eventSelect.innerHTML = '<option value="">-- Select an Event --</option>';
 
@@ -721,7 +721,7 @@ quantityInput.addEventListener("input", updateTotal);
       const userName = localStorage.getItem("userName") || "Guest";
 
       try {
-        const res = await fetch("http://localhost:5000/sendTicketEmail", {
+       const res = await fetch("https://occasio-production.up.railway.app/sendTicketEmail", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events | OCCASIO</title>
+  <link rel="stylesheet" href="events.css">
+</head>
+<body>
+  <!-- Header / Navbar -->
+  <header>
+    <nav>
+      <!-- Left: Logo -->
+      <div class="logo">OCCASIO</div>
+
+      <!-- Center: Nav Links -->
+      <div class="nav-links">
+        <ul>
+          <li><a href="home.html">HOME</a></li>
+          
+          <!-- Activities Dropdown -->
+          <li class="dropdown">
+            <a href="activities.html" class="dropbtn">ACTIVITIES</a>
+            <div class="dropdown-content">
+              <a href="gamezones.html">Game Zones</a>
+              <a href="themepark.html">Theme Parks</a>
+              <a href="workshop.html">Workshop</a>
+              <a href="adventure.html">Adventure</a>
+              <a href="kidsplay.html">Kids Play</a>
+              <a href="fitness.html">Fitness</a>
+              <a href="pets.html">Pets</a>
+              <a href="waterpark.html">Waterpark</a>
+              <a href="gamesnquizzes.html">Games & Quizzes</a>
+              <a href="museums.html">Museums</a>
+              <a href="artsncrafts.html">Arts & Craft</a>
+            </div>
+          </li>
+          
+          <li><a href="events.html" class="active">EVENTS</a></li>
+          <li><a href="about.html">ABOUT</a></li>        
+          <li><a href="contact.html">CONTACT US</a></li>
+        </ul>
+      </div>
+
+      <!-- Right: Back Button -->
+      <div id="back-button" class="back-btn-container">
+        <button class="back-btn" onclick="goBack()" aria-label="Go back to previous page">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Back
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Events Section -->
+ <section class="events">
+  <h2>All Events</h2>
+
+  <!-- Filter Options -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="music">Music</button>
+    <button class="filter-btn" data-filter="workshop">Workshop</button>
+    <button class="filter-btn" data-filter="comedy">Comedy</button>
+    <button class="filter-btn" data-filter="movies">Movies</button>
+    <button class="filter-btn" data-filter="sports">Sports</button>
+    <button class="filter-btn" data-filter="fiesta">Fiesta</button>
+    <button class="filter-btn" data-filter="pets">Pets</button>
+  </div>
+
+  <!-- Events will load here -->
+  <div id="event-grid" class="event-grid">Loading events...</div>
+</section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 OCCASIO | All rights reserved.</p>
+  </footer>
+  
+  <script src="shared.js"></script>
+<script>
+const eventContainer = document.querySelector('.event-grid');
+const filterButtons = document.querySelectorAll('.filter-btn');
+
+// ✅ Fetch live events from backend
+async function loadEvents() {
+  eventContainer.innerHTML = "<p style='text-align:center;'>Loading events...</p>";
+
+  try {
+    const res = await fetch("http://localhost:5000/getAllEvents");
+    const events = await res.json();
+
+    if (!Array.isArray(events) || events.length === 0) {
+      eventContainer.innerHTML = "<p style='text-align:center;'>No events found.</p>";
+      return;
+    }
+
+    // ✅ Create event cards dynamically
+    eventContainer.innerHTML = events.map(event => `
+      <div class="event-card" data-category="${event.CATEGORY || 'general'}">
+        <img src="${event.IMAGE_PATH || 'https://placehold.co/250x250/1e90ff/ffffff?text=' + encodeURIComponent(event.TITLE)}" alt="${event.TITLE}">
+        <h3>${event.TITLE}</h3>
+        <p>${event.DESCRIPTION || "No description available"}<br>
+        <strong>${event.EVENT_DATE}</strong> • ${event.VENUE}</p>
+       <button class="book-btn" onclick="goToBuyTickets(${event.EVENT_ID})">Book Now</button>
+      </div>
+    `).join("");
+
+    attachFilterLogic();
+  } catch (err) {
+    console.error("❌ Error fetching events:", err);
+    eventContainer.innerHTML = "<p style='color:red;text-align:center;'>Failed to load events.</p>";
+  }
+}
+// ✅ Redirect user to buy-tickets.html with event details
+function goToBuyTickets(eventId) {
+  // Optional: check if logged in
+  const user = localStorage.getItem("loggedInUser");
+  if (!user) {
+    alert("Please log in first!");
+    window.location.href = "login.html";
+    return;
+  }
+
+  // Store event ID for the next page
+  localStorage.setItem("selectedEventId", eventId);
+
+  // Redirect to buy-tickets.html with query parameter
+  window.location.href = `buy-tickets.html?event_id=${eventId}`;
+}
+
+
+// ✅ Booking logic
+async function bookEvent(eventId) {
+  const user = localStorage.getItem("loggedInUser");
+  if (!user) {
+    alert("Please log in first!");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const tickets = prompt("How many tickets would you like to book?");
+  if (!tickets || isNaN(tickets) || tickets <= 0) return;
+
+  try {
+    const response = await fetch("http://localhost:5000/bookEvent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_email: user,
+        event_id: eventId,
+        tickets: Number(tickets)
+      })
+    });
+
+    const data = await response.json();
+    alert(data.message);
+  } catch (err) {
+    console.error("Booking error:", err);
+    alert("Booking failed. Please try again.");
+  }
+}
+
+// ✅ Filter logic
+function attachFilterLogic() {
+  filterButtons.forEach(button => {
+    button.addEventListener("click", function() {
+      filterButtons.forEach(btn => btn.classList.remove("active"));
+      this.classList.add("active");
+
+      const filter = this.getAttribute("data-filter");
+      document.querySelectorAll(".event-card").forEach(card => {
+        if (filter === "all" || card.getAttribute("data-category") === filter) {
+          card.style.display = "";
+        } else {
+          card.style.display = "none";
+        }
+      });
+    });
+  });
+}
+
+// ✅ Go back button
+function goBack() {
+  if (window.history.length > 1) window.history.back();
+  else window.location.href = "home.html";
+}
+
+// ✅ Initialize on page load
+loadEvents();
+</script>
+  
+  <style>
+    /* Filter button styles */
+    .filter-btn {
+      background: #1a3a5e;
+      color: #b8c6cf;
+      border: 2px solid #1a3a5e;
+      padding: 8px 16px;
+      margin: 5px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .filter-btn:hover {
+      background: #0d2b4d;
+      border-color: #00b4d8;
+    }
+    
+    .filter-btn.active {
+      background: dodgerblue;
+      color: white;
+      border-color: dodgerblue;
+    }
+  </style>
+
+  <script>
+  function goBack() {
+    // If there is a previous page in history, go back
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      // Fallback: go to home page if no history
+      window.location.href = "home.html";
+    }
+  }
+</script>
+
+</body>
+</html>

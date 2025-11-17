@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About Us - OCCASIO</title>
+  <link rel="stylesheet" href="about.css">
+</head>
+<body>
+
+  <!-- HEADER / NAV -->
+  <header>
+    <div class="logo">OCCASIO</div>
+
+    <!-- center links -->
+    <nav>
+      <ul>
+        <li><a href="home.html">HOME</a></li>
+        
+        <!-- Activities Dropdown -->
+        <li class="dropdown">
+          <a href="activities.html" class="dropbtn">ACTIVITIES</a>
+          <div class="dropdown-content">
+            <a href="gamezones.html">Game Zones</a>
+            <a href="themepark.html">Theme Parks</a>
+            <a href="workshop.html">Workshop</a>
+            <a href="adventure.html">Adventure</a>
+            <a href="kidsplay.html">Kids Play</a>
+            <a href="fitness.html">Fitness</a>
+            <a href="pets.html">Pets</a>
+            <a href="waterpark.html">Waterpark</a>
+            <a href="gamesnquizzes.html">Games & Quizzes</a>
+            <a href="museums.html">Museums</a>
+            <a href="artsncrafts.html">Arts & Craft</a>
+          </div>
+        </li>
+        
+        <li><a href="events.html">EVENTS</a></li>
+        <li><a href="about.html" class="active">ABOUT</a></li>
+        <li><a href="contact.html">CONTACT US</a></li>
+      </ul>
+    </nav>
+
+    <!-- right button -->
+    <div id="back-button" class="back-btn-container">
+      <button class="back-btn" onclick="goBack()" aria-label="Go back to previous page">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Back
+      </button>
+    </div>
+  </header>
+
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-overlay">
+      <h1>About Occasio</h1>
+      <p class="sub">Your gateway to unforgettable experiences</p>
+    </div>
+  </section>
+
+
+  <!-- MISSION -->
+  <section class="mission container">
+    <div class="mission-card">
+      <h2>Our Mission</h2>
+      <p>
+        At Occasio, we bring people together through the power of live experiences.
+        From concerts and cultural fests to workshops and meetups — we create spaces
+        where memories are made and stories are shared.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- STATS (horizontal, centered) -->
+  <section class="stats container" aria-label="site stats">
+    <div class="stat">
+      <span class="counter" data-target="150">0</span>
+      <p>Events Hosted</p>
+    </div>
+    <div class="stat">
+      <span class="counter" data-target="5000">0</span>
+      <p>Attendees</p>
+    </div>
+    <div class="stat">
+      <span class="counter" data-target="50">0</span>
+      <p>Cities Covered</p>
+    </div>
+  </section>
+
+
+  <!-- TEAM -->
+  <section class="team container">
+    <h2>Meet the Team</h2>
+
+    <div class="team-grid">
+      <div class="member">
+        <img src="https://placehold.co/260x180/1e90ff/ffffff?text=Pritika+Gupta" alt="Pritika Gupta - Front End Designer">
+        <h3>Pritika Gupta</h3>
+        <p>Front End Designer</p>
+      </div>
+
+      <div class="member">
+        <img src="https://placehold.co/260x180/00b4d8/ffffff?text=Heer+Shah" alt="Heer Shah - Back End Developer">
+        <h3>Heer Shah</h3>
+        <p>Back End Developer</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 OCCASIO | All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="shared.js"></script>
+  <script src="about.js"></script>
+</body>
+</html>

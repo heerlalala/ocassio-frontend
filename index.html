@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCCASIO | Discover Amazing Events</title>
+  <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+  <header>
+  <div class="logo"><b>OCCASIO</b></div>
+  <nav>
+    <ul>
+     <li><a href="home.html" class="active">HOME</a></li>
+     
+     <!-- Activities Dropdown -->
+     <li class="dropdown">
+       <a href="activities.html" class="dropbtn">ACTIVITIES</a>
+       <div class="dropdown-content">
+         <a href="gamezones.html">Game Zones</a>
+         <a href="themepark.html">Theme Parks</a>
+         <a href="workshop.html">Workshop</a>
+         <a href="adventure.html">Adventure</a>
+         <a href="kidsplay.html">Kids Play</a>
+         <a href="fitness.html">Fitness</a>
+         <a href="pets.html">Pets</a>
+         <a href="waterpark.html">Waterpark</a>
+         <a href="gamesnquizzes.html">Games & Quizzes</a>
+         <a href="museums.html">Museums</a>
+         <a href="artsncrafts.html">Arts & Craft</a>
+       </div>
+     </li>
+     
+     <li><a href="events.html">EVENTS</a></li>
+     <li><a href="about.html">ABOUT</a></li>        
+     <li><a href="contact.html">CONTACT US</a></li>
+    </ul>
+  </nav>
+  
+  <!-- USER AUTH/PROFILE MENU -->
+  <div class="user-auth-menu">
+      <button id="profile-icon" class="profile-icon" aria-label="User profile menu" aria-expanded="false"></button>
+      
+      <div id="auth-menu-dropdown" class="auth-menu-dropdown">
+          <a href="login.html" id="auth-link-1">Log In</a>
+          <a href="profile.html" id="auth-link-2">View Profile</a>
+      </div>
+  </div>
+</header>
+
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1>Find & Book the Best Events Near You</h1>
+      <p>Concerts, Comedy, Sports, Fiesta & more</p>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search events, activities..." aria-label="Search for events">
+        <button id="searchBtn" aria-label="Search">Search</button>
+      </div>
+    </div>
+
+    <!-- Horizontal moving text -->
+    <div class="hero-marquee">
+      <div class="marquee-track">
+        <span class="marquee-item">• Tickets on Sale Now • Fiesta Lineup Announced • Workshop Slots Filling Fast •</span>
+        <span class="marquee-item">• Tickets on Sale Now • Fiesta Lineup Announced • Workshop Slots Filling Fast •</span>
+        <span class="marquee-item">• Tickets on Sale Now • Fiesta Lineup Announced • Workshop Slots Filling Fast •</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="upcoming" class="events">
+    <h2>📅 UPCOMING EVENTS</h2>
+    <div class="event-scroll">
+      <div class="event-card" data-category="music">
+        <img src="https://placehold.co/250x150/1e90ff/ffffff?text=Live+Music" alt="Live Music Concert">
+        <h3>Live Music With Karoke</h3>
+        <p>Nov 10 • Mumbai</p>
+        <span class="tag events">Music</span>
+      </div>
+
+      <div class="event-card" data-category="workshop">
+        <img src="https://placehold.co/250x150/00b4d8/ffffff?text=Web+Dev" alt="Web Development Workshop">
+        <h3>Advance Web Dev Workshop</h3>
+        <p>Dec 12 • Bangalore</p>
+        <span class="tag events">Workshop</span>
+      </div>
+      
+      <div class="event-card" data-category="comedy">
+        <img src="https://placehold.co/250x150/ff6b6b/ffffff?text=Comedy+Show" alt="Stand-Up Comedy">
+        <h3>Stand-Up Comedy Marathon</h3>
+        <p>Nov 14 • Delhi</p>
+        <span class="tag events">Comedy</span>
+      </div>
+      
+      <div class="event-card" data-category="movies">
+        <img src="https://placehold.co/250x150/4ecdc4/ffffff?text=Movie+Night" alt="Outdoor Movie">
+        <h3>Outdoor Movie Night</h3>
+        <p>Jan 25 • Hyderabad</p>
+        <span class="tag movies">Film</span>
+      </div>
+
+      <div class="event-card" data-category="sports">
+        <img src="https://placehold.co/250x150/95e1d3/ffffff?text=Marathon" alt="City Marathon">
+        <h3>First City Marathon 2026</h3>
+        <p>Jan 1 • Chennai</p>
+        <span class="tag activities">Sports</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="categories" class="categories">
+    <h2>EXPLORE CATEGORIES</h2>
+    <div class="category-grid">
+      <a href="events.html?category=movies" class="category-card movie">
+        <p>MOVIES</p>
+      </a>
+      <a href="activities.html" class="category-card activities">
+        <p>ACTIVITIES</p>
+      </a>
+      <a href="events.html" class="category-card category-events">
+        <p>EVENTS</p>
+      </a>
+      <a href="events.html?category=dining" class="category-card dining">
+        <p>DINING</p>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Occasio. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    // --- FIREBASE IMPORTS AND SETUP ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signOut, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Global variables
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+    let auth = null;
+    let db = null;
+    let isAuthReady = false;
+
+    // --- DOM ELEMENTS ---
+    const profileIcon = document.getElementById('profile-icon');
+    const authMenuDropdown = document.getElementById('auth-menu-dropdown');
+    const authLink1 = document.getElementById('auth-link-1');
+    const authLink2 = document.getElementById('auth-link-2');
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+
+    // Default Profile Icon Style
+    const LOGGED_OUT_ICON_URL = "https://placehold.co/45x45/00b4d8/FFFFFF?text=L%2FI";
+
+    // --- SEARCH FUNCTIONALITY ---
+    function performSearch() {
+        const query = searchInput.value.trim().toLowerCase();
+        
+        if (!query) {
+            alert('Please enter a search term');
+            return;
+        }
+        
+        // Get all event cards
+        const eventCards = document.querySelectorAll('.event-card');
+        let foundResults = false;
+        
+        eventCards.forEach(card => {
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            const description = card.querySelector('p').textContent.toLowerCase();
+            const tag = card.querySelector('.tag').textContent.toLowerCase();
+            
+            if (title.includes(query) || description.includes(query) || tag.includes(query)) {
+                card.style.display = 'block';
+                card.style.border = '2px solid #1e90ff';
+                foundResults = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        
+        if (!foundResults) {
+            alert('No events found matching your search. Try different keywords.');
+            // Reset all cards
+            eventCards.forEach(card => {
+                card.style.display = 'block';
+                card.style.border = '1px solid transparent';
+            });
+        } else {
+            // Scroll to events section
+            document.getElementById('upcoming').scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+    
+    searchBtn.addEventListener('click', performSearch);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performSearch();
+        }
+    });
+
+    // --- UTILITY FUNCTIONS ---
+    function createInitialsUrl(initials) {
+        return `https://placehold.co/45x45/D5003A/FFFFFF?text=${initials}`;
+    }
+    
+    async function fetchUserProfileData(userId) {
+        const profileDocRef = doc(db, `artifacts/${appId}/users/${userId}/profiles`, 'main');
+        try {
+            const docSnap = await getDoc(profileDocRef);
+            
+            if (docSnap.exists()) {
+                console.log("Profile data loaded from Firestore.");
+                return docSnap.data();
+            } else {
+                const defaultProfile = {
+                    photoURL: null,
+                    userName: "Pritika Gupta", 
+                };
+                
+                setDoc(profileDocRef, defaultProfile).catch(e => console.error("Error setting default profile:", e));
+                return defaultProfile;
+            }
+        } catch (error) {
+            console.error("Error fetching user profile:", error);
+            return { userName: "User", photoURL: null };
+        }
+    }
+
+    async function updateProfileUI(user) {
+        if (user) {
+            if (!db) {
+                console.error("Firestore not initialized.");
+                return;
+            }
+
+            const profile = await fetchUserProfileData(user.uid);
+            const userName = profile.userName || "PG";
+            
+            let iconUrl;
+            
+            if (profile.photoURL) {
+                iconUrl = profile.photoURL;
+                console.log("Using photoURL from profile.");
+            } else {
+                const initials = userName.split(' ').map(n => n[0]).join(''); 
+                iconUrl = createInitialsUrl(initials);
+                console.log("Using generated initials.");
+            }
+            
+            profileIcon.style.backgroundImage = `url('${iconUrl}')`;
+            
+            authLink1.textContent = "Sign Out";
+            authLink1.href = "#";
+            authLink1.onclick = handleSignOut;
+            
+            authLink2.textContent = `My Profile (${userName})`; 
+            authLink2.href = "profile.html";
+            
+        } else {
+            profileIcon.style.backgroundImage = `url('${LOGGED_OUT_ICON_URL}')`;
+            
+            authLink1.textContent = "Log In";
+            authLink1.href = "login.html";
+            authLink1.onclick = null;
+            
+            authLink2.textContent = "View Profile (Login Req)";
+            authLink2.href = "login.html";
+        }
+    }
+    
+    async function handleSignOut(event) {
+        event.preventDefault();
+        try {
+            await signOut(auth);
+            authMenuDropdown.style.display = 'none';
+            profileIcon.setAttribute('aria-expanded', 'false');
+            console.log("User signed out successfully.");
+        } catch (error) {
+            console.error("Error signing out:", error);
+        }
+    }
+        
+    profileIcon.addEventListener('click', (event) => {
+        event.stopPropagation();
+        
+        const isVisible = authMenuDropdown.style.display === 'block';
+
+        if (isVisible) {
+            authMenuDropdown.style.display = 'none';
+            profileIcon.setAttribute('aria-expanded', 'false');
+        } else {
+            authMenuDropdown.style.display = 'block';
+            profileIcon.setAttribute('aria-expanded', 'true');
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        const isClickInsideMenu = document.querySelector('.user-auth-menu').contains(event.target);
+        
+        if (!isClickInsideMenu && authMenuDropdown.style.display === 'block') {
+            authMenuDropdown.style.display = 'none';
+            profileIcon.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    // --- INITIALIZATION ---
+    window.onload = async function() {
+        try {
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+
+            if (initialAuthToken) {
+                await signInWithCustomToken(auth, initialAuthToken);
+            } else {
+                await signInAnonymously(auth);
+            }
+
+            onAuthStateChanged(auth, async (user) => {
+                isAuthReady = true;
+                await updateProfileUI(user);
+                
+                if (user) {
+                    console.log("Auth State Changed: Logged In", user.uid);
+                    console.log(`Current User ID: ${user.uid}`);
+                } else {
+                    console.log("Auth State Changed: Logged Out (or Anonymous)");
+                }
+            });
+
+        } catch (error) {
+            console.error("Firebase Initialization Error:", error);
+        }
+    }
+  </script>
+
+<script>
+  const email = localStorage.getItem("loggedInUser");
+  const name = localStorage.getItem("userName");
+  const type = localStorage.getItem("userType");
+
+  const auth1 = document.getElementById("auth-link-1");
+  const auth2 = document.getElementById("auth-link-2");
+  const profileIcon = document.getElementById("profile-icon");
+
+  // Helper: Get initials
+  function getInitials(nameOrEmail) {
+    if (!nameOrEmail) return "U"; // fallback
+    const parts = nameOrEmail.trim().split(/\s+/);
+    if (parts.length > 1) {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    } else {
+      // fallback to first two letters if email
+      return nameOrEmail.substring(0, 2).toUpperCase();
+    }
+  }
+
+  // Helper: Create a simple circular avatar with initials
+  function setProfileInitials(initials) {
+    profileIcon.style.backgroundImage = "none";
+    profileIcon.textContent = initials;
+    profileIcon.style.display = "flex";
+    profileIcon.style.alignItems = "center";
+    profileIcon.style.justifyContent = "center";
+    profileIcon.style.width = "45px";
+    profileIcon.style.height = "45px";
+    profileIcon.style.borderRadius = "50%";
+    profileIcon.style.background = "#00b4d8";
+    profileIcon.style.color = "#001233";
+    profileIcon.style.fontWeight = "700";
+    profileIcon.style.fontSize = "18px";
+    profileIcon.style.textTransform = "uppercase";
+  }
+
+  if (email) {
+    // Logged-in user
+    const displayName = name || email.split("@")[0];
+    const initials = getInitials(displayName);
+    setProfileInitials(initials);
+
+    auth1.textContent = "Logout";
+    auth1.href = "#";
+    auth1.addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "login.html";
+    });
+
+    auth2.textContent = displayName;
+    auth2.href = "profile.html";
+  } else {
+    // Not logged in
+    auth1.textContent = "Log In";
+    auth1.href = "login.html";
+    profileIcon.textContent = "L";
+    profileIcon.style.background = "#D5003A";
+  }
+</script>
+
+<!-- ✅ AI CHATBOT WIDGET -->
+<style>
+  /* Floating Chatbot Button */
+  #chatbot-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #00b4d8;
+    color: #001233;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    font-size: 26px;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.3s;
+    z-index: 9999;
+  }
+  #chatbot-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0,180,216,0.5);
+  }
+
+  /* Chatbot Panel */
+  #chatbot-container {
+    position: fixed;
+    bottom: 95px;
+    right: 25px;
+    width: 320px;
+    height: 420px;
+    background: #001845;
+    border: 2px solid #00b4d8;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9998;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  #chatbot-header {
+    background: #00b4d8;
+    color: #001233;
+    padding: 10px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  #chatbot-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #fff;
+    background: #0d1b2a;
+  }
+
+  .bot-msg, .user-msg {
+    max-width: 80%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  .bot-msg {
+    background: #001845;
+    align-self: flex-start;
+    border: 1px solid rgba(0,180,216,0.4);
+  }
+  .user-msg {
+    background: #00b4d8;
+    color: #001233;
+    align-self: flex-end;
+  }
+
+  #chatbot-input-area {
+    display: flex;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    background: #001233;
+  }
+
+  #chatbot-input {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    background: transparent;
+    color: white;
+    outline: none;
+    font-size: 0.9rem;
+  }
+
+  #chatbot-send {
+    background: #00b4d8;
+    color: #001233;
+    border: none;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  #chatbot-send:hover {
+    background: #009ac0;
+  }
+</style>
+
+<!-- Chatbot HTML -->
+<button id="chatbot-btn">💬</button>
+
+<div id="chatbot-container">
+  <div id="chatbot-header">OCCASIO AI Assistant</div>
+  <div id="chatbot-messages">
+    <div class="bot-msg">👋 Hi there! I’m your OCCASIO Assistant.<br>How can I help you today?</div>
+  </div>
+  <div id="chatbot-input-area">
+    <input type="text" id="chatbot-input" placeholder="Ask me anything...">
+    <button id="chatbot-send">➤</button>
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById("chatbot-btn");
+  const box = document.getElementById("chatbot-container");
+  const input = document.getElementById("chatbot-input");
+  const sendBtn = document.getElementById("chatbot-send");
+  const messages = document.getElementById("chatbot-messages");
+
+  btn.addEventListener("click", () => {
+    box.style.display = box.style.display === "flex" ? "none" : "flex";
+  });
+
+  function appendMessage(text, sender = "bot") {
+    const div = document.createElement("div");
+    div.classList.add(sender === "bot" ? "bot-msg" : "user-msg");
+    div.innerHTML = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function botReply(userText) {
+    const lower = userText.toLowerCase();
+    let reply = "🤔 I’m not sure I understand. Try asking about events or bookings.";
+
+    if (lower.includes("hello") || lower.includes("hi")) reply = "Hello! 👋 Welcome to OCCASIO.";
+    else if (lower.includes("event")) reply = "You can view all events under the EVENTS section above.";
+    else if (lower.includes("book")) reply = "To book an event, visit its page and click the 'Book Now' button.";
+    else if (lower.includes("contact")) reply = "You can contact us anytime through the CONTACT US page.";
+    else if (lower.includes("bye")) reply = "Goodbye! 👋 Have a great day.";
+
+    appendMessage(reply, "bot");
+  }
+
+  sendBtn.addEventListener("click", () => {
+    const text = input.value.trim();
+    if (!text) return;
+    appendMessage(text, "user");
+    input.value = "";
+    setTimeout(() => botReply(text), 700);
+  });
+
+  input.addEventListener("keypress", e => {
+    if (e.key === "Enter") sendBtn.click();
+  });
+</script>
+
+</body>
+</html>

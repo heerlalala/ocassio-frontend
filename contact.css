@@ -1,0 +1,291 @@
+/* ===========================
+   OCCASIO - MERGED STYLES (ABOUT + CONTACT)
+   =========================== */
+
+/* ===========================
+   RESET + BASE (Taken from about.css)
+   =========================== */
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0d1b2a;    /* navy-black */
+  color: #e0e0e0;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+}
+
+.container {
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+/* ===========================
+   HEADER / NAVBAR (Consolidated from both files)
+   =========================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background:#07107a;
+  padding:14px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+  display:flex;
+  align-items:center;
+  gap: 20px;
+}
+
+header .logo {
+  margin-left: 50px;
+  font-size: 34px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+nav {
+  flex: 1;
+  text-align: center;
+}
+nav ul {
+  list-style:none;
+  display:inline-flex;
+  gap:36px;
+  align-items:center;
+  padding-left:0;
+}
+
+nav ul li a {
+  color:#ffffff;
+  text-decoration:none;
+  font-weight:600;
+  font-size:16px;
+  padding:6px 0;
+  transition: color .2s;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #1e90ff;  /* dodgerblue active */
+}
+
+/* Header Actions container for back button + ticket button */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between the two buttons */
+    margin-right: 50px;
+}
+
+/* --- Dropdown Menu Styles --- */
+
+/* Parent container for the dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* The button/link that triggers the dropdown */
+.dropbtn {
+    /* Uses existing nav ul li a styles, but ensures the pointer is visible */
+    cursor: pointer;
+}
+
+/* The actual menu content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    /* Positioning directly below the link */
+    top: 100%; 
+    left: 0;
+    
+    /* Dark background for the dropdown box */
+    background-color: navy; 
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.8);
+    z-index: 100; /* Ensure it floats above other content */
+    border-radius: 4px;
+    padding: 8px 0;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: white; /* White text on navy background */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block; /* Makes each link take up a full line */
+    text-align: left;
+    transition: background-color 0.3s;
+    font-weight: 400;
+}
+
+/* Hover style for individual links in the dropdown */
+.dropdown-content a:hover {
+    background-color:#1976d2; /* Slightly darker navy hover */
+    color: white;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Optional: Ensure the dropdown button stays highlighted when hovering over it or the content */
+.dropdown:hover .dropbtn {
+    color: white; 
+}
+
+/* --- Back Button Styling (from about.css) --- */
+/* The HTML structure was slightly modified in the merged HTML, so we adjust this selector */
+.back-btn-container {
+    padding: 0; /* Adjusted since it's inside header-actions */
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    color: dodgerblue;
+    font-size: 1rem;
+    font-weight: 500;
+
+    transition: color 0.2s, transform 0.2s;
+}
+
+.back-btn:hover {
+    color: #0077b6;
+    transform: translateX(-3px);
+}
+
+.back-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+}
+
+/* ticket button (from both files) */
+.ticket-btn {
+  background: #1e90ff;
+  color: #001226;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight:700;
+  text-decoration:none;
+  transition: background .2s, transform .1s;
+}
+.ticket-btn:hover { background:#0b65c2; transform: translateY(-1px); }
+
+
+/* ===========================
+   HERO (Consolidated from both files)
+   =========================== */
+.hero {
+  background: linear-gradient(180deg, rgba(3,23,46,0.95), rgba(2,15,28,0.9));
+  min-height: 28vh; /* about.css was 28vh, contact.css was 25vh. Using 28vh */
+  display:flex;
+  align-items:center;
+  padding:40px 0;
+}
+
+.hero .container {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.hero h1 {
+  font-size:36px;
+  color:#ffffff;
+  margin-bottom:6px;
+}
+
+.hero .sub {
+  color:#b9c6cf;
+  font-size:16px;
+}
+
+/* Custom class for the Contact Hero section to differentiate it */
+.contact-hero {
+    min-height: 20vh; /* Make the second hero slightly smaller */
+    background: linear-gradient(180deg, rgba(7,25,43,0.95), rgba(5,18,34,0.9));
+}
+
+/* ===========================
+   CONTACT US SECTIONS (from contact.css)
+   =========================== */
+
+/* Contact info card */
+.contact-info { padding:40px 0; }
+.info-card {
+  background: linear-gradient(180deg, #07192b, #021028);
+  border-radius:12px; padding:36px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.55);
+}
+.info-card h2 { color:#00b4d8; font-size:28px; margin-bottom:14px; }
+.info-card p { color:#b8c6cf; margin-bottom:18px; }
+.info-card .details { list-style:none; }
+.info-card .details li { margin-bottom:8px; }
+
+/* Form */
+.form-section { padding:40px 0; text-align:center; }
+.form-section h2 { margin-bottom:20px; color:#e6eef8; }
+.contact-form { display:flex; flex-direction:column; gap:16px; max-width:600px; margin:0 auto; }
+.contact-form input,
+.contact-form textarea {
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:#071d33;
+  color:#e0e0e0;
+}
+.contact-form button {
+  background:#1e90ff; border:none; padding:12px; border-radius:8px;
+  font-weight:700; cursor:pointer; color:#001226; transition:.2s;
+}
+.contact-form button:hover { background:#0b65c2; }
+
+/* Map */
+.map { padding:40px 0; text-align:center; }
+.map h2 { margin-bottom:20px; color:#e6eef8; }
+
+/* ===========================
+   FOOTER (Consolidated from both files)
+   =========================== */
+footer {
+  padding:20px 0;
+  background:#000814;
+  color:#9fb0bf;
+  text-align:center;
+  margin-top:40px;
+  font-size:14px;
+}
+
+/* ===========================
+   RESPONSIVE (from about.css)
+   =========================== */
+@media (max-width:900px) {
+  .logo { margin-left:20px; font-size:28px; }
+  nav ul { gap:18px; }
+  /* .ticket-btn margin is now handled by header-actions */
+  .mission-card { padding:24px; }
+  .team-grid { gap:18px; }
+  .header-actions { margin-right: 20px; }
+}
+
+@media (max-width:600px) {
+  nav { text-align:left; }
+  nav ul { display:flex; gap:12px; padding-left: 20px; }
+  .hero h1 { font-size:24px; }
+  .stat .counter { font-size:32px; }
+  .member { width:100%; }
+  .member img { height:200px; }
+  header { padding:10px 0; }
+  .header-actions { margin-right: 10px; }
+}

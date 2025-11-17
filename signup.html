@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OCCASIO | Sign Up</title>
+  <link rel="stylesheet" href="home.css" />
+  <style>
+    body {
+      background: #0d1b2a;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .signup-container {
+      background: #001233;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      text-align: center;
+      width: 90%;
+      max-width: 420px;
+    }
+    h2 {
+      margin-bottom: 25px;
+      color: #00b4d8;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+      background: #0d1b2a;
+      color: white;
+      font-size: 1rem;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: dodgerblue;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0077b6;
+    }
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h2>Create Your OCCASIO Account</h2>
+    <form id="signupForm">
+      <select id="accountType" required>
+        <option value="">Select Account Type</option>
+        <option value="user">User</option>
+        <option value="organizer">Organizer</option>
+      </select>
+      <input type="text" id="name" placeholder="Full Name / Organization Name" required />
+      <input type="email" id="email" placeholder="Email Address" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit" id="signupBtn">Create Account</button>
+    </form>
+    <div id="message"></div>
+    <p>Already have an account? <a href="login.html" style="color:#00b4d8;">Log In</a></p>
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("signupForm");
+    const message = document.getElementById("message");
+    const signupBtn = document.getElementById("signupBtn");
+
+    signupBtn.disabled = false; // ensure it's clickable on load
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault(); // Stop page reload
+      signupBtn.disabled = true;
+
+      const type = document.getElementById("accountType").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      console.log("📤 Sending signup data:", { type, name, email, password });
+
+      if (!type || !name || !email || !password) {
+        message.textContent = "⚠️ All fields are required.";
+        message.style.color = "orange";
+        signupBtn.disabled = false;
+        return;
+      }
+
+      const url = type === "organizer"
+        ? "http://localhost:5000/registerOrganizer"
+        : "http://localhost:5000/register";
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            org_name: type === "organizer" ? name : null,
+            name,
+            email,
+            password
+          })
+        });
+
+        const data = await res.json();
+        console.log("✅ Server response:", data);
+
+        if (res.ok) {
+          message.textContent = data.message + " Redirecting...";
+          message.style.color = "lightgreen";
+
+          // Save for profile
+          localStorage.setItem("userName", name);
+          localStorage.setItem("loggedInUser", email);
+          localStorage.setItem("userType", type);
+
+          setTimeout(() => {
+            window.location.href =
+              type === "organizer"
+                ? "organizer-dashboard.html"
+                : "home.html";
+          }, 1500);
+        } else {
+          message.textContent = data.message || "❌ Signup failed.";
+          message.style.color = "red";
+        }
+      } catch (err) {
+        console.error("❌ Signup error:", err);
+        message.textContent = "❌ Server error. Please try again later.";
+        message.style.color = "red";
+      } finally {
+        signupBtn.disabled = false;
+      }
+    });
+  });
+  </script>
+</body>
+</html>

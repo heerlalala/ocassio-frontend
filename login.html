@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCCASIO | Login</title>
+  <link rel="stylesheet" href="home.css">
+  <style>
+    body {
+      background: #0d1b2a;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-container {
+      background: #001233;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+    }
+    h2 {
+      color: #00b4d8;
+      margin-bottom: 25px;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+      background: #0d1b2a;
+      color: white;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: dodgerblue;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0077b6;
+    }
+    #message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login to OCCASIO</h2>
+    <form id="loginForm">
+      <select id="accountType" required>
+        <option value="">Select Account Type</option>
+        <option value="user">User</option>
+        <option value="organizer">Organizer</option>
+      </select>
+      <input type="email" id="email" placeholder="Email Address" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <div id="message"></div>
+    <p>Don't have an account? <a href="signup.html" style="color:#00b4d8;">Create one</a></p>
+  </div>
+
+
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const type = document.getElementById("accountType").value;
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!type || !email || !password) {
+        message.textContent = "⚠️ All fields are required.";
+        message.style.color = "orange";
+        return;
+      }
+
+      try {
+        const url = type === "organizer"
+          ? "http://localhost:5000/loginOrganizer"
+          : "http://localhost:5000/login";
+
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, username: email, password })
+        });
+
+        const data = await res.json();
+
+if (res.ok) {
+  message.textContent = "✅ Login successful! Redirecting...";
+  message.style.color = "lightgreen";
+
+  const derivedName = (data.user && data.user.name)
+    ? data.user.name
+    : email.split("@")[0];
+
+  localStorage.setItem("userName", derivedName);
+  localStorage.setItem("userType", type);
+
+  if (type === "organizer") {
+    localStorage.setItem("loggedInOrganizer", email);
+    localStorage.removeItem("loggedInUser");
+  } else {
+    localStorage.setItem("loggedInUser", email);
+    localStorage.removeItem("loggedInOrganizer");
+  }
+
+  setTimeout(() => {
+    if (type === "organizer") {
+      window.location.href = "organizer-dashboard.html";
+    } else {
+      window.location.href = "home.html";
+    }
+  }, 1500);
+}
+
+
+else {
+        message.textContent = data.message || "❌ Invalid credentials.";
+        message.style.color = "red";
+      }
+    } catch (err) {
+      message.textContent = "❌ Server error. Please try again later.";
+        message.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

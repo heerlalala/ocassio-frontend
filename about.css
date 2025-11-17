@@ -1,0 +1,370 @@
+/* ===========================
+   RESET + BASE
+   =========================== */
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; }
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #0d1b2a;    /* navy-black */
+  color: #e0e0e0;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+}
+
+/* small utility container to center content */
+.container {
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+/* ===========================
+   HEADER / NAVBAR
+   (logo left, links centered, button right)
+   =========================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background:#07107a;            /* deep navy for header */
+  padding:14px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+  display:flex;
+  align-items:center;
+  gap: 20px;
+}
+
+/* layout inside header: use container so header spans full width but content centered */
+header > .logo,
+header > nav,
+header > .ticket-btn {
+  /* we'll position with nav flex below using : header container */
+}
+
+/* we want header content centered within .container */
+header .logo,
+header nav,
+header .ticket-btn {
+  /* nothing here - the .container below will center content */
+}
+
+/* Arrange inner header items: use an inner wrapper */
+header { }
+header .logo {
+  margin-left: 50px; /* keep logo slightly away from edge */
+  font-size: 34px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+/* center the nav links */
+nav {
+  flex: 1;                 /* take remaining space */
+  text-align: center;
+}
+nav ul {
+  list-style:none;
+  display:inline-flex;
+  gap:36px;
+  align-items:center;
+  padding-left:0;
+}
+
+nav ul li a {
+  color:#ffffff;
+  text-decoration:none;
+  font-weight:600;
+  font-size:16px;
+  padding:6px 0;
+  transition: color .2s;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: #1e90ff;  /* dodgerblue active */
+}
+
+/* --- Back Button Styling --- */
+
+/* Container to position the button */
+.back-btn-container {
+    padding: 20px 5%; /* Adjust padding to match your body/header margins */
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    
+    /* Transparent background, styled like a link */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    
+    color: dodgerblue; /* Matches your accent color */
+    font-size: 1rem;
+    font-weight: 500;
+    
+    transition: color 0.2s, transform 0.2s;
+}
+
+/* Hover effect: make it slightly darker and move it left */
+.back-btn:hover {
+    color: #0077b6; /* Slightly darker blue */
+    transform: translateX(-3px);
+}
+
+/* Style the SVG arrow */
+.back-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor; /* Inherits the button's color */
+}
+
+/* --- Dropdown Menu Styles --- */
+
+/* Parent container for the dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* The button/link that triggers the dropdown */
+.dropbtn {
+    /* Uses existing nav ul li a styles, but ensures the pointer is visible */
+    cursor: pointer;
+}
+
+/* The actual menu content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    /* Positioning directly below the link */
+    top: 100%; 
+    left: 0;
+    
+    /* Dark background for the dropdown box */
+    background-color: navy; 
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.8);
+    z-index: 100; /* Ensure it floats above other content */
+    border-radius: 4px;
+    padding: 8px 0;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: white; /* White text on navy background */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block; /* Makes each link take up a full line */
+    text-align: left;
+    transition: background-color 0.3s;
+    font-weight: 400;
+}
+
+/* Hover style for individual links in the dropdown */
+.dropdown-content a:hover {
+    background-color:#1976d2; /* Slightly darker navy hover */
+    color: white;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Optional: Ensure the dropdown button stays highlighted when hovering over it or the content */
+.dropdown:hover .dropbtn {
+    color: white; 
+}
+
+/* ticket button aligned right */
+.ticket-btn {
+  margin-right: 50px;
+  background: navy;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight:800;
+  text-decoration:none;
+  transition: background .2s, transform .1s;-
+}
+.ticket-btn:hover { background:#0b65c2; transform: translateY(-1px); }
+
+/* Make header layout stable by placing header content inside .container using pseudo element:
+   We'll wrap the visible parts with .container in HTML sections below; header elements themselves keep spacing */
+
+/* ===========================
+   HERO
+   =========================== */
+.hero {
+  background: linear-gradient(180deg, rgba(3,23,46,0.95), rgba(2,15,28,0.9));
+  min-height: 28vh;
+  display:flex;
+  align-items:center;
+  padding:40px 0;
+}
+
+.hero .container {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.hero h1 {
+  font-size:36px;
+  color:#ffffff;
+  margin-bottom:6px;
+}
+
+.hero .sub {
+  color:#b9c6cf;
+  font-size:16px;
+}
+
+/* ===========================
+   MISSION (card)
+   =========================== */
+.mission {
+  padding: 40px 0;
+}
+
+.mission-card {
+  background: linear-gradient(180deg, #07192b, #021028);
+  border-radius:12px;
+  padding:36px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.55);
+}
+
+.mission-card h2 {
+  color:#00b4d8; /* teal-blue */
+  font-size:32px;
+  margin-bottom:14px;
+}
+
+.mission-card p {
+  color:#b8c6cf;
+  font-size:16px;
+  line-height:1.8;
+}
+
+/* ===========================
+   STATS (horizontal row)
+   =========================== */
+.stats {
+  display:flex;
+  gap:40px;
+  justify-content:center;
+  align-items:center;
+  padding: 40px 0;
+  flex-wrap:wrap;
+}
+
+.stat {
+  text-align:center;
+  min-width:160px;
+}
+
+.stat .counter {
+  display:block;
+  font-size:40px;
+  font-weight:800;
+  color:#e6f7ff;
+}
+
+.stat p {
+  margin-top:8px;
+  color:#c7d7df;
+  font-size:14px;
+}
+
+/* ===========================
+   TEAM
+   =========================== */
+.team {
+  padding:40px 0;
+  text-align:center;
+}
+
+.team h2 {
+  font-size:28px;
+  color:#e6eef8;
+  margin-bottom:20px;
+}
+
+.team-grid {
+  display:flex;
+  gap:28px;
+  justify-content:center;
+  flex-wrap:wrap;
+  align-items:stretch;
+}
+
+/* single member */
+.member {
+  background:#071d33;
+  border-radius:10px;
+  width: 260px;
+  padding:18px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.55);
+  transition: transform .25s;
+  text-align:center;
+}
+
+.member:hover { transform: translateY(-8px); }
+
+.member img {
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:8px;
+  margin-bottom:12px;
+  background:#0a2233;
+}
+
+.member h3 {
+  font-size:18px;
+  color:#fff;
+  margin-bottom:6px;
+}
+
+.member p {
+  color:#b8c6cf;
+  font-size:14px;
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+footer {
+  padding:20px 0;
+  background:#000814;
+  color:#9fb0bf;
+  text-align:center;
+  margin-top:40px;
+  font-size:14px;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width:900px) {
+  .logo { margin-left:20px; font-size:28px; }
+  nav ul { gap:18px; }
+  .ticket-btn { margin-right:20px; padding:8px 14px; }
+  .mission-card { padding:24px; }
+  .team-grid { gap:18px; }
+}
+
+@media (max-width:600px) {
+  nav { text-align:left; }
+  nav ul { display:flex; gap:12px; padding-left: 20px; }
+  .hero h1 { font-size:24px; }
+  .stat .counter { font-size:32px; }
+  .member { width:100%; }
+  .member img { height:200px; }
+  header { padding:10px 0; }
+}

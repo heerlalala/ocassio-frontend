@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy Tickets - OCCASIO</title>
+  <style>
+    /* ===========================
+       BASE STYLES (OCCASIO Theme)
+       =========================== */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html,body { height:100%; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0d1b2a;    /* navy-black */
+      color: #e0e0e0;
+      line-height:1.5;
+    }
+
+    .container {
+      max-width:1100px;
+      margin:0 auto;
+      padding:0 20px;
+    }
+
+    /* ===========================
+       HEADER / NAVBAR (Consistent with existing pages)
+       =========================== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background:#07107a;
+      padding:14px 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+      display:flex;
+      align-items:center;
+      gap: 20px;
+      justify-content: space-between;
+    }
+
+    header .logo {
+      margin-left:50px;
+      font-size:34px;
+      font-weight:800;
+      color:#fff;
+    }
+
+    nav ul {
+      list-style:none;
+      display:inline-flex;
+      gap:36px;
+    }
+
+    nav ul li a {
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
+      transition:.2s;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+
+    nav ul li a:hover {
+  /* For hover, keep it simple: just change text color */
+  color: #00b4d8; /* Or the exact blue shade you want for hover */
+  background: transparent; /* Ensure no background shape appears on hover */
+}
+
+nav ul li a.active {
+  /* For the currently active page (e.g., 'Activities' if on activities.html) */
+  color: #00b4d8; /* The blue color from your second image */
+  background: transparent; /* No background shape for active state either */
+}
+
+    
+    .ticket-btn {
+        background: #00b4d8;
+        color: #07107a;
+        text-decoration: none;
+        padding: 8px 20px;
+        border-radius: 6px;
+        font-weight: 700;
+        margin-right: 50px;
+        transition: background-color 0.2s, transform 0.1s;
+    }
+
+    .ticket-btn:hover {
+        background: #00a0c4;
+        transform: translateY(-2px);
+    }
+    
+    /* ===========================
+       HERO
+       =========================== */
+    .hero {
+        text-align: center;
+        padding: 80px 0 40px;
+        background: linear-gradient(180deg, #07107a, #0d1b2a);
+    }
+    .hero h1 { 
+        font-size: 3.5rem; 
+        color: #fff;
+        margin-bottom: 8px; 
+    }
+    .hero p { 
+        color: #b8c6cf; 
+        font-size: 1.2rem;
+    }
+
+    /* --- Back Button Styling --- */
+
+/* Container to position the button */
+.back-btn-container {
+    padding: 20px 5%; /* Adjust padding to match your body/header margins */
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    
+    /* Transparent background, styled like a link */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    
+    color: dodgerblue; /* Matches your accent color */
+    font-size: 1rem;
+    font-weight: 500;
+    
+    transition: color 0.2s, transform 0.2s;
+}
+
+/* Hover effect: make it slightly darker and move it left */
+.back-btn:hover {
+    color: #0077b6; /* Slightly darker blue */
+    transform: translateX(-3px);
+}
+
+/* Style the SVG arrow */
+.back-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor; /* Inherits the button's color */
+}
+
+    /* ===========================
+       TICKET SECTION & CARD
+       =========================== */
+    .ticket-section {
+      padding: 50px 20px 80px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    
+    /* Card style consistent with locations.html widget-card */
+    .ticket-card {
+      background: #071d33;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 450px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+    
+    .ticket-card h2 { 
+      color: #00b4d8;
+      margin-bottom: 25px; 
+      font-size: 26px;
+      border-bottom: 2px solid rgba(0, 180, 216, 0.3);
+      padding-bottom: 10px;
+      text-align: center;
+    }
+
+    /* Form Inputs/Selects */
+    .ticket-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .ticket-form label {
+        font-weight: 600;
+        color: #e0e0e0;
+        margin-bottom: -5px;
+        font-size: 14px;
+    }
+
+    .ticket-form select,
+    .ticket-form input[type="number"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #1a3a5e;
+        border-radius: 6px;
+        font-size: 16px;
+        background: #0a2233;
+        color: #e0e0e0;
+    }
+    .ticket-form select:focus,
+    .ticket-form input[type="number"]:focus {
+        outline: none;
+        border-color: #00b4d8;
+        box-shadow: 0 0 8px rgba(0, 180, 216, 0.5);
+    }
+    .ticket-form select:disabled {
+        background: #1a3a5e;
+        color: #b8c6cf;
+        cursor: not-allowed;
+    }
+    
+    .ticket-form button {
+        background: #00b4d8;
+        color: #07107a;
+        padding: 14px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.1s;
+        margin-top: 10px;
+    }
+
+    .ticket-form button:hover {
+        background: #00a0c4;
+        transform: translateY(-2px);
+    }
+
+    /* Total Price Display */
+    #totalPrice {
+        font-size: 24px;
+        font-weight: bold;
+        color: #fff;
+        text-align: center;
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 6px;
+        background: #07107a;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Message Box (for alert replacement) */
+    #messageBox {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #07107a;
+        color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+        text-align: center;
+        z-index: 2000;
+        min-width: 300px;
+        border: 2px solid #00b4d8;
+        display: none; /* Initially hidden */
+    }
+    #messageBox button {
+        margin-top: 15px;
+        background: #00b4d8;
+        color: #07107a;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 700;
+    }
+
+
+    /* ===========================
+       CATEGORY FILTER WIDGET (New)
+       =========================== */
+    .filter-card {
+        background: #071d33;
+        padding: 20px 30px;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        text-align: center;
+    }
+    .filter-card h3 {
+        color: #00b4d8;
+        margin-bottom: 15px;
+        font-size: 1.4rem;
+    }
+
+    .category-widgets {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .filter-btn {
+        background: #1a3a5e; /* Darker blue background */
+        color: #b8c6cf;
+        border: 2px solid #1a3a5e;
+        padding: 10px 18px;
+        border-radius: 25px; /* Pill shape */
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        user-select: none;
+    }
+
+    .filter-btn:hover {
+        background: #0d2b4d;
+        border-color: #00b4d8;
+    }
+
+    .filter-btn.active {
+        background: #00b4d8;
+        color: #07107a;
+        border-color: #00b4d8;
+    }
+
+    /* ===========================
+       FOOTER
+       =========================== */
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      background: #07107a;
+      border-top: 1px solid #1a3a5e;
+      margin-top: 40px;
+    }
+
+    footer p {
+      color: #b8c6cf;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+        header .logo, .ticket-btn {
+            margin: 0 10px;
+        }
+        nav { display: none; }
+        header { justify-content: space-around; }
+        .hero h1 { font-size: 2.5rem; }
+        .filter-card { margin: 0 20px 30px; }
+        .ticket-section { padding: 30px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER / NAV -->
+  <header>
+    <div class="logo">OCCASIO</div>
+
+    <!-- center links -->
+    <nav>
+      <ul>
+        <li><a href="home.html"><h4>HOME</h4></a></li>
+        <li><a href="activities.html" class="nav-link active"><h4>ACTIVITIES</h4></a></li>
+        <li><a href="events.html"><h4>EVENTS</h4></a></li>
+        <li><a href="about.html"><h4>ABOUT</h4></a></li>        
+        <li><a href="contact.html"><h4>CONTACT US</h4></a></li>
+      </ul>
+    </nav>
+
+    <!-- right button -->
+    <div id="back-button" class="back-btn-container">
+    <button class="back-btn" onclick="goBack()">
+        <!-- SVG for a clean left-pointing arrow -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Back
+    </button>
+</div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Buy Your Tickets</h1>
+      <p>Select a category and secure your seat for an amazing event!</p>
+    </div>
+  </section>
+
+  <!-- Category Filter Widget -->
+  <section class="container">
+    <div class="filter-card">
+        <h3>Choose Your Event Category</h3>
+        <div id="categoryWidgets" class="category-widgets">
+            <!-- Filter buttons are generated by JS, but keeping one as a template -->
+            <button class="filter-btn" data-filter="all">All Events</button>
+        </div>
+    </div>
+  </section>
+
+  <!-- Ticket Selection with Seat Map & Payment -->
+<section class="ticket-section">
+  <div class="ticket-card">
+    <h2>Ticket Order Form</h2>
+    <form class="ticket-form" id="ticketForm">
+
+      <!-- Select Event -->
+      <label for="eventSelect">Event</label>
+      <select id="eventSelect" required>
+        <option value="">-- Select an Event --</option>
+      </select>
+
+      <!-- Seat Selection -->
+      <label>Select Your Seats</label>
+      <div id="seatGrid" class="seat-grid"></div>
+
+      <!-- Ticket Type -->
+      <label for="ticketTypeSelect">Ticket Type</label>
+      <select id="ticketTypeSelect" disabled required>
+        <option value="">-- Select Ticket Type --</option>
+      </select>
+
+      <!-- Quantity (Auto updates based on seats selected) -->
+      <label for="quantityInput">Quantity</label>
+      <input type="number" id="quantityInput" min="1" value="1" required disabled>
+
+      <!-- Total Price -->
+      <div id="totalPrice">Total: ₹0</div>
+
+      <!-- Payment Options -->
+      <label>Choose Payment Method</label>
+      <div class="payment-options">
+        <label><input type="radio" name="payment" value="razorpay" required> Razorpay (UPI/Card)</label>
+        <label><input type="radio" name="payment" value="paypal"> PayPal</label>
+        <label><input type="radio" name="payment" value="upi"> UPI / Wallet</label>
+      </div>
+
+      <button type="submit">Complete Purchase</button>
+      <div id="qrContainer" style="margin-top:20px; text-align:center;"></div>
+    </form>
+  </div>
+</section>
+
+<style>
+  /* SEAT MAP */
+  .seat-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    margin: 10px 0 20px;
+    justify-items: center;
+  }
+
+  .seat {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    background: #0a2233;
+    color: #b8c6cf;
+    font-size: 12px;
+    font-weight: bold;
+    border: 1px solid #1a3a5e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .seat:hover {
+    background: #00b4d8;
+    color: #001233;
+    transform: scale(1.1);
+  }
+
+  .seat.selected {
+    background: #00b4d8;
+    color: #001233;
+    border: 2px solid #00b4d8;
+  }
+
+  .seat.reserved {
+    background: #444;
+    color: #999;
+    cursor: not-allowed;
+  }
+
+  /* Payment Options */
+  .payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #0a2233;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #1a3a5e;
+  }
+
+  .payment-options label {
+    font-size: 14px;
+    color: #b8c6cf;
+    cursor: pointer;
+  }
+</style>
+
+  <!-- Message Box (Modal replacement for alert) -->
+  <div id="messageBox">
+      <p id="messageContent"></p>
+      <button onclick="document.getElementById('messageBox').style.display='none'">OK</button>
+  </div>
+
+
+  <!-- FOOTER (Standard structure) -->
+  <footer>
+    <p>&copy; 2025 OCCASIO. All rights reserved.</p>
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // ✅ Setup
+  const params = new URLSearchParams(window.location.search);
+  const preselectId = params.get("event_id");
+
+  const eventSelect = document.getElementById("eventSelect");
+  const ticketTypeSelect = document.getElementById("ticketTypeSelect");
+  const quantityInput = document.getElementById("quantityInput");
+  const totalPriceEl = document.getElementById("totalPrice");
+  const seatGrid = document.getElementById("seatGrid");
+  const qrContainer = document.getElementById("qrContainer");
+
+  let selectedSeats = [];
+  const ticketTypes = { standard: 1.0, premium: 1.5, vip: 2.5 };
+  const rows = "ABCDEFGH";
+
+  // ✅ 1. Render Seats
+  function renderSeats() {
+    seatGrid.innerHTML = "";
+    for (let r of rows) {
+      for (let i = 1; i <= 8; i++) {
+        const seat = document.createElement("div");
+        const seatId = `${r}${i}`;
+        seat.textContent = seatId;
+        seat.classList.add("seat");
+        if (Math.random() < 0.1) seat.classList.add("reserved");
+        seat.addEventListener("click", () => {
+          if (seat.classList.contains("reserved")) return;
+          seat.classList.toggle("selected");
+          updateSelectedSeats();
+        });
+        seatGrid.appendChild(seat);
+      }
+    }
+  }
+
+  // ✅ 2. Update Selected Seats
+  function updateSelectedSeats() {
+    selectedSeats = Array.from(document.querySelectorAll(".seat.selected")).map(s => s.textContent);
+    quantityInput.value = selectedSeats.length || 1;
+    updateTotal();
+  }
+
+  // ✅ 3. Update Total Price
+  function updateTotal() {
+    const eventKey = eventSelect.value;
+    const type = ticketTypeSelect.value;
+    const qty = selectedSeats.length || parseInt(quantityInput.value) || 1;
+
+    if (!eventKey || !type) {
+      totalPriceEl.textContent = "Total: ₹0";
+      return;
+    }
+
+    const base = parseFloat(eventSelect.selectedOptions[0].dataset.price);
+    const multiplier = ticketTypes[type];
+    const total = base * multiplier * qty;
+    totalPriceEl.textContent = `Total: ₹${total.toLocaleString("en-IN")}`;
+  }
+
+  // ✅ 4. Load Events
+  async function loadEvents() {
+    try {
+      const res = await fetch("http://localhost:5000/getAllEvents");
+      const events = await res.json();
+      console.log("✅ Events fetched:", events);
+
+      eventSelect.innerHTML = '<option value="">-- Select an Event --</option>';
+
+      if (!Array.isArray(events) || events.length === 0) {
+        eventSelect.innerHTML += '<option>No events available</option>';
+        return;
+      }
+
+      for (const ev of events) {
+        const id = ev.EVENT_ID || ev.event_id;
+        const title = ev.TITLE || ev.title;
+        const price = ev.PRICE || ev.price;
+        const venue = ev.VENUE || ev.venue;
+
+        const opt = document.createElement("option");
+        opt.value = id;
+        opt.textContent = `${title} (₹${price})`;
+        opt.dataset.price = price;
+        opt.dataset.title = title;
+        opt.dataset.venue = venue;
+
+        if (preselectId && preselectId == id) opt.selected = true;
+        eventSelect.appendChild(opt);
+      }
+
+      console.log("🎉 Dropdown populated:", eventSelect.options.length);
+      if (preselectId) {
+        ticketTypeSelect.disabled = false;
+        quantityInput.disabled = false;
+        updateTotal();
+      }
+    } catch (err) {
+      console.error("❌ Error loading events:", err);
+      eventSelect.innerHTML = '<option>Error loading events</option>';
+    }
+  }
+
+  // ✅ 5. Event Listeners
+// ✅ Handle Event Change
+eventSelect.addEventListener("change", () => {
+  const selectedOption = eventSelect.selectedOptions[0];
+  if (!selectedOption || !selectedOption.dataset.price) {
+    ticketTypeSelect.disabled = true;
+    quantityInput.disabled = true;
+    totalPriceEl.textContent = "Total: ₹0";
+    return;
+  }
+
+  const base = parseFloat(selectedOption.dataset.price);
+
+  // Enable dropdown and quantity input
+  ticketTypeSelect.disabled = false;
+  quantityInput.disabled = false;
+
+  // Reset dropdown
+  ticketTypeSelect.innerHTML = '<option value="">-- Select Ticket Type --</option>';
+
+  // Add options dynamically
+  for (const [type, mult] of Object.entries(ticketTypes)) {
+    const opt = document.createElement("option");
+    opt.value = type;
+    opt.textContent = `${type.toUpperCase()} - ₹${(base * mult).toFixed(2)}`;
+    ticketTypeSelect.appendChild(opt);
+  }
+
+  // Reset total until user chooses a type
+  totalPriceEl.textContent = "Total: ₹0";
+});
+
+// ✅ Preselect if event_id param exists
+async function loadEvents() {
+  try {
+    const res = await fetch("http://localhost:5000/getAllEvents");
+    const events = await res.json();
+    eventSelect.innerHTML = '<option value="">-- Select an Event --</option>';
+
+    if (!Array.isArray(events) || events.length === 0) {
+      eventSelect.innerHTML += '<option>No events available</option>';
+      return;
+    }
+
+    for (const ev of events) {
+      const id = ev.EVENT_ID || ev.event_id;
+      const title = ev.TITLE || ev.title;
+      const price = ev.PRICE || ev.price;
+      const venue = ev.VENUE || ev.venue;
+
+      const opt = document.createElement("option");
+      opt.value = id;
+      opt.textContent = `${title} (₹${price})`;
+      opt.dataset.price = price;
+      opt.dataset.title = title;
+      opt.dataset.venue = venue;
+      eventSelect.appendChild(opt);
+    }
+
+    // ✅ If preselectId exists, trigger change event
+    if (preselectId) {
+      eventSelect.value = preselectId;
+      eventSelect.dispatchEvent(new Event("change"));
+    }
+  } catch (err) {
+    console.error("❌ Error loading events:", err);
+    eventSelect.innerHTML = '<option>Error loading events</option>';
+  }
+}
+
+// ✅ When user selects a ticket type, recalculate total
+ticketTypeSelect.addEventListener("change", updateTotal);
+quantityInput.addEventListener("input", updateTotal);
+
+
+  // ✅ 6. Handle Form Submission (QR + Email)
+  document.getElementById("ticketForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const eventKey = eventSelect.value;
+    const type = ticketTypeSelect.value;
+    const qty = selectedSeats.length || parseInt(quantityInput.value);
+    const total = totalPriceEl.textContent.split("₹")[1];
+
+    if (!eventKey || !type) {
+      alert("Please select all required fields.");
+      return;
+    }
+
+    const eventName = eventSelect.selectedOptions[0].dataset.title;
+    const seats = selectedSeats.length > 0 ? selectedSeats.join(", ") : "Auto Assigned";
+    const upiId = "heershah@oksbi";
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=${upiId}&pn=OCCASIO&am=${total}&cu=INR`;
+
+    qrContainer.innerHTML = `
+      <h3>Scan this QR to Pay</h3>
+      <img src="${qrUrl}" width="200" height="200" alt="UPI QR" />
+      <p>Pay ₹${total} to confirm your booking.</p>
+      <button id="confirmPaymentBtn">Done</button>
+    `;
+
+    document.getElementById("confirmPaymentBtn").addEventListener("click", async () => {
+      const email = localStorage.getItem("loggedInUser");
+      const userName = localStorage.getItem("userName") || "Guest";
+
+      try {
+        const res = await fetch("http://localhost:5000/sendTicketEmail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+            event: eventName,
+            message: `
+              Hi ${userName},<br><br>
+              ✅ Your payment for <b>${eventName}</b> has been received.<br>
+              🎟️ Ticket Type: <b>${type.toUpperCase()}</b><br>
+              💺 Seats: <b>${seats}</b><br>
+              💰 Amount Paid: ₹${total}<br><br>
+              Show this email at the event entry gate.<br><br>
+              — Team OCCASIO
+            `,
+          }),
+        });
+
+        if (res.ok) {
+          alert(`✅ Payment confirmed! Ticket has been emailed to ${email}`);
+          qrContainer.innerHTML = "";
+          document.getElementById("ticketForm").reset();
+          renderSeats();
+          totalPriceEl.textContent = "Total: ₹0";
+        } else {
+          alert("❌ Could not send email. Please check your server.");
+        }
+      } catch (err) {
+        console.error("Email error:", err);
+        alert("⚠️ Server error. Try again later.");
+      }
+    });
+  });
+
+  // ✅ Initialize
+  renderSeats();
+  loadEvents();
+
+  window.goBack = function() {
+    window.history.back();
+  };
+});
+</script>
+
+<!-- Order Summary Modal -->
+<div id="summaryModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2>🎟️ Order Summary</h2>
+    <div id="summaryDetails"></div>
+    <div class="modal-buttons">
+      <button id="confirmPay">Proceed to Pay</button>
+      <button id="cancelPay">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Modal Styling */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    background: #001233;
+    border: 2px solid #00b4d8;
+    border-radius: 12px;
+    padding: 30px 40px;
+    color: #fff;
+    text-align: center;
+    max-width: 420px;
+    box-shadow: 0 0 25px rgba(0,180,216,0.4);
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-content h2 {
+    color: #00b4d8;
+    margin-bottom: 15px;
+  }
+
+  .modal-content p {
+    margin: 8px 0;
+    font-size: 15px;
+    color: #c8d7e1;
+  }
+
+  .modal-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .modal-buttons button {
+    background: #00b4d8;
+    color: #001233;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+
+  .modal-buttons button:hover {
+    background: #009ac2;
+    transform: translateY(-2px);
+  }
+
+  #cancelPay {
+    background: transparent;
+    border: 1px solid #00b4d8;
+    color: #00b4d8;
+  }
+
+  #cancelPay:hover {
+    background: #002855;
+  }
+</style>
+</body>
+</html>

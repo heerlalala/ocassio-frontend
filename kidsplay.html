@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kids Play - OCCASIO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-navy: #0d1b2a;
+            --color-deep-navy: #07107a;
+            --color-card-bg: #071d33;
+            --color-accent: #1e90ff;
+            --color-text-light: #e0e0e0;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--color-navy);
+            color: var(--color-text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container { max-width: 1200px; }
+        .header-bg { background-color: var(--color-deep-navy); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45); }
+        .logo-text { font-size: 1.875rem; font-weight: 800; color: white; letter-spacing: 1px; }
+        .nav-link { color: #ffffff; font-weight: 600; transition: color 0.2s; }
+        .nav-link:hover, .nav-link.active { color: var(--color-accent); }
+        .ticket-btn { background-color: var(--color-accent); color: var(--color-navy); transition: background 0.2s, transform 0.1s; }
+        .ticket-btn:hover { background-color: #0b65c2; transform: translateY(-1px); }
+        .hero-section { background: linear-gradient(180deg, rgba(3,23,46,0.95), rgba(2,15,28,0.9)); padding: 4rem 0; }
+        footer { background-color: #000814; color: #9fb0bf; margin-top: auto; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- HEADER / NAV -->
+    <header class="header-bg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6 md:px-8">
+            <div class="logo-text">OCCASIO</div>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-8">
+                    <li><a href="home.html"><h4>HOME</h4></a></li>
+                    <li><a href="activities.html" class="nav-link active"><h4>ACTIVITIES</h4></a></li>
+                    <li><a href="events.html"><h4>EVENTS</h4></a></li>
+                    <li><a href="about.html"><h4>ABOUT</h4></a></li>        
+                    <li><a href="contact.html"><h4>CONTACT US</h4></a></li>
+                </ul>
+            </nav>
+            <a href="buy-tickets.html" class="ticket-btn py-2 px-4 rounded-lg font-bold text-sm shadow-lg hover:shadow-xl">Buy Tickets</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="container mx-auto px-6 md:px-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-3">Kids Play</h1>
+            <p class="text-xl text-gray-400">Safe, engaging, and educational play areas, summer camps, and activities for children of all ages.</p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow py-12 md:py-20">
+        <div class="container mx-auto px-6 md:px-8">
+            <h2 class="text-3xl font-bold mb-8 text-white">Family-Friendly Events</h2>
+            
+            <!-- Placeholder for Featured Events -->
+            <div class="bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-700">
+                <p class="text-gray-400 italic">This section will list soft play venues, children's museum exhibits, and creative classes for kids.</p>
+                <ul class="list-disc list-inside mt-4 text-gray-300 space-y-2">
+                    <li><a href="#" class="text-blue-400 hover:text-blue-300">Indoor Playground Toddler Time</a></li>
+                    <li><a href="#" class="text-blue-400 hover:text-blue-300">Kids Science & Robotics Summer Camp</a></li>
+                    <li><a href="#" class="text-blue-400 hover:text-blue-300">Puppet Show & Storytelling Hour</a></li>
+                </ul>
+            </div>
+            
+            <h3 class="text-2xl font-semibold mt-12 mb-6 text-white">Fun for the Whole Family</h3>
+            <p class="text-gray-300">Ensure your children have memorable and enriching experiences with our curated list of the best play zones and learning activities.</p>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-6">
+        <div class="container mx-auto px-6 md:px-8 text-center">
+            <p>&copy; 2025 OCCASIO | All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

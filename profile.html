@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>OCCASIO | My Profile</title>
+  <link rel="stylesheet" href="home.css" />
+  <style>
+    :root {
+      --bg: #0d1b2a;
+      --card: #001845;
+      --accent: #00b4d8;
+      --muted: #adb5bd;
+      --nav: #001233;
+      --danger: #D5003A;
+    }
+    body {
+      background: var(--bg);
+      color: white;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--nav);
+      padding: 15px 5%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .logo { font-size: 1.8rem; font-weight: bold; color: var(--accent); }
+    main {
+      padding: 40px 5%;
+      max-width: 1100px;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    /* Top centered profile card */
+    .profile-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0,180,216,0.95), rgba(0,120,180,0.9));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 28px;
+      color: white;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      letter-spacing: 1px;
+    }
+    .profile-name { font-size: 1.6rem; color: var(--accent); margin: 0; }
+    .profile-email { color: var(--muted); margin: 0; font-size: 0.95rem; }
+
+    /* dashboard grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* left column: bookings & account */
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .info-card {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.35);
+    }
+    .info-card h3 { color: var(--accent); margin: 0 0 10px 0; font-size: 1.06rem; border-bottom: 1px solid rgba(0,0,80,0.6); padding-bottom: 8px; }
+
+    .info-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(13,27,42,0.6);
+    }
+    .info-line strong { color: white; }
+    .info-line span { color: var(--muted); }
+
+    .event-item { background: #002855; margin: 10px 0; padding: 12px; border-radius: 6px; }
+    .event-item h4 { margin: 0; color: var(--accent); font-size: 1rem; }
+    .event-item small { color: var(--muted); display:block; margin-top:6px; }
+
+    /* right column: small cards + chart */
+    .right-col { display:flex; flex-direction: column; gap: 16px; }
+
+    .small-card {
+      background: linear-gradient(180deg, rgba(0,20,40,0.6), rgba(0,10,30,0.6));
+      padding: 14px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    }
+    .small-card h4 { margin: 0 0 8px 0; color: var(--accent); font-size: 1rem; }
+    .small-card p { margin:0; color: var(--muted); font-weight:600; }
+
+    .stat-row { display:flex; gap:10px; justify-content:center; align-items:center; margin-top:8px; }
+    .stat-pill { background: rgba(255,255,255,0.03); padding:8px 12px; border-radius:999px; color:var(--accent); font-weight:700; }
+
+    /* buttons */
+    .btn { padding:8px 12px; border-radius:8px; cursor:pointer; border:none; font-weight:700; }
+    .btn-primary { background: var(--accent); color: #001022; }
+    .btn-danger { background: var(--danger); color: white; }
+
+    /* modal */
+    .modal-overlay { position:fixed; inset:0; background: rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; z-index:50; }
+    .modal { width: 360px; background: #071728; border-radius:10px; padding:18px; box-shadow: 0 12px 30px rgba(0,0,0,0.6); color: white; }
+    .modal h3 { margin-top:0; color: var(--accent); }
+    .modal label { display:block; margin:10px 0 6px; color:var(--muted); }
+    .modal input { width:100%; padding:10px; border-radius:6px; border:1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); color:white; }
+
+    /* responsive */
+    @media (max-width: 900px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+      .right-col { order: 2; }
+      .left-col { order: 1; }
+    }
+
+    footer { text-align:center; margin-top:40px; padding:15px; background:var(--nav); color:#ccc; border-top: 1px solid rgba(255,255,255,0.02); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">OCCASIO</div>
+
+  <div style="display:flex; align-items:center; gap:10px;">
+    <button id="backBtn" style="
+      background:#00b4d8;
+      color:#001233;
+      font-weight:600;
+      border:none;
+      padding:8px 14px;
+      border-radius:6px;
+      cursor:pointer;">
+      ← Back
+    </button>
+
+    <div style="display:flex; align-items:center; gap:10px;">
+    <button id="logoutBtn" style="
+      background:#00b4d8;
+      color:#001233;
+      font-weight:600;
+      border:none;
+      padding:8px 14px;
+      border-radius:6px;
+      cursor:pointer;">
+      logout
+    </button>
+
+  </div>
+</header>
+
+  <main>
+    <!-- Top profile -->
+    <section class="profile-top">
+      <div class="avatar" id="avatar">HS</div>
+      <h2 class="profile-name" id="profileName">Loading...</h2>
+      <p class="profile-email" id="profileEmail">...</p>
+    </section>
+
+    <!-- Grid: left = bookings & account, right = small cards + chart -->
+    <div class="dashboard-grid">
+      <div class="left-col">
+        <div class="info-card" id="accountCard">
+          <h3>Account Details</h3>
+          <div class="info-line"><strong>Name</strong><span id="user-name">Loading...</span></div>
+          <div class="info-line"><strong>Email</strong><span id="user-email">Loading...</span></div>
+          <div class="info-line"><strong>Account Type</strong><span id="user-type">User</span></div>
+          <div style="display:flex; gap:10px; margin-top:12px;">
+            <button class="btn btn-primary" id="changePassBtn">Change Password</button>
+            <button class="btn" id="editProfileBtn" style="background:rgba(255,255,255,0.03); color:var(--muted);">Edit Profile</button>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3>My Bookings</h3>
+          <div id="bookings-list"><p style="color:var(--muted)">Loading bookings...</p></div>
+        </div>
+      </div>
+
+      <aside class="right-col">
+        <div class="small-card">
+          <h4>Tickets Summary</h4>
+          <p id="ticketSummaryText">Booked: <span id="bookedCount">0</span> • Cancelled: <span id="cancelledCount">0</span></p>
+          <div style="margin-top:12px;">
+            <canvas id="ticketsChart" width="300" height="180"></canvas>
+          </div>
+        </div>
+
+        <div class="small-card">
+          <h4>Quick Actions</h4>
+          <div class="stat-row">
+            <div class="stat-pill" id="totalEvents">Events • 0</div>
+            <div class="stat-pill" id="activeMembership">Member • N/A</div>
+          </div>
+          <p style="margin-top:10px; color:var(--muted); font-size:0.9rem;">Change password, edit profile, and manage bookings from this dashboard.</p>
+        </div>
+      </aside>
+    </div>
+
+    <div id="message" style="margin-top:18px;"></div>
+  </main>
+
+  <footer>© 2025 OCCASIO | All rights reserved.</footer>
+
+  <!-- Change Password Modal (frontend-only) -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Change Password</h3>
+      <label for="oldPass">Old Password</label>
+      <input id="oldPass" type="password" placeholder="Enter old password" />
+      <label for="newPass">New Password</label>
+      <input id="newPass" type="password" placeholder="Enter new password" />
+      <label for="confirmPass">Confirm New Password</label>
+      <input id="confirmPass" type="password" placeholder="Confirm new password" />
+      <div style="display:flex; gap:10px; margin-top:12px; justify-content:flex-end;">
+        <button class="btn" id="closeModal">Cancel</button>
+        <button class="btn btn-primary" id="submitPass">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    // --- helpers ---
+    const $ = id => document.getElementById(id);
+    const showMsg = (text, time=1800) => {
+      const el = $('message');
+      el.textContent = text;
+      el.style.color = '#fff';
+      el.style.background = 'rgba(0,0,0,0.25)';
+      el.style.padding = '10px 12px';
+      el.style.borderRadius = '8px';
+      setTimeout(()=> el.textContent = '', time);
+    };
+
+    // Stored values
+    const email = localStorage.getItem('loggedInUser');
+    const storedName = localStorage.getItem('userName');
+    const type = localStorage.getItem('userType') || 'user';
+
+    // Redirect if not logged in
+    if (!email) {
+      alert('Please log in first.');
+      return window.location.href = 'login.html';
+    }
+
+    // Compute display name & initials
+    const displayName = storedName || (email ? email.split('@')[0] : 'User');
+    function initialsFromName(name) {
+      if (!name) return 'U';
+      const parts = name.trim().split(/\s+/);
+      if (parts.length === 1) return parts[0].slice(0,2).toUpperCase();
+      return (parts[0][0] + parts[parts.length-1][0]).toUpperCase();
+    }
+    const initials = initialsFromName(displayName);
+
+    // DOM references
+    const avatarEl = $('avatar');
+    const profileName = $('profileName');
+    const profileEmail = $('profileEmail');
+    const userNameEl = $('user-name');
+    const userEmailEl = $('user-email');
+    const userTypeEl = $('user-type');
+    const bookingsList = $('bookings-list');
+    const bookedCountEl = $('bookedCount');
+    const cancelledCountEl = $('cancelledCount');
+
+    // Set initial UI
+    avatarEl.textContent = initials;
+    profileName.textContent = displayName;
+    profileEmail.textContent = email;
+    userNameEl.textContent = displayName;
+    userEmailEl.textContent = email;
+    userTypeEl.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+
+    // Logout
+    $('logoutBtn').addEventListener('click', () => {
+      localStorage.clear();
+      showMsg('Logged out. Redirecting...');
+      setTimeout(() => window.location.href = 'login.html', 900);
+    });
+
+    // Back button logic
+const backBtn = document.getElementById("backBtn");
+if (backBtn) {
+  backBtn.addEventListener("click", () => {
+    const userType = localStorage.getItem("userType");
+    if (userType === "organizer") {
+      window.location.href = "organizer-dashboard.html";
+    } else {
+      window.location.href = "home.html";
+    }
+  });
+}
+
+    // Change password modal (frontend only)
+    const modalOverlay = $('modalOverlay');
+    $('changePassBtn').addEventListener('click', () => modalOverlay.style.display = 'flex');
+    $('closeModal').addEventListener('click', () => modalOverlay.style.display = 'none');
+    $('submitPass').addEventListener('click', () => {
+      const oldP = $('oldPass').value.trim();
+      const newP = $('newPass').value.trim();
+      const confirmP = $('confirmPass').value.trim();
+      if (!oldP || !newP || !confirmP) return alert('Please fill all fields.');
+      if (newP !== confirmP) return alert('New password and confirm password do not match.');
+      // Frontend-only: show success
+      modalOverlay.style.display = 'none';
+      showMsg('Password changed (frontend-only demo).');
+      // optionally clear fields
+      $('oldPass').value = $('newPass').value = $('confirmPass').value = '';
+    });
+
+    // Bookings & chart logic
+    let bookings = [];
+    let cancelledCount = 0;
+
+    async function loadBookings() {
+      bookingsList.innerHTML = '<p style="color:var(--muted)">Loading bookings...</p>';
+      try {
+        // Use relative URLs to match server port + host
+        const res = await fetch(`/getUserBookings/${encodeURIComponent(email)}`);
+        if (!res.ok) {
+          throw new Error('Server returned error');
+        }
+        const data = await res.json();
+        // Expecting array, fallback empty
+        bookings = Array.isArray(data) ? data : [];
+      } catch (err) {
+        // If backend not reachable, fallback to empty list and show message
+        bookings = [];
+        console.warn('Could not fetch bookings (fallback):', err);
+        bookingsList.innerHTML = '<p style="color:var(--muted)">Unable to load bookings from server.</p>';
+      }
+
+      renderBookings();
+      updateChart();
+    }
+
+    function renderBookings() {
+      if (!bookings || bookings.length === 0) {
+        bookingsList.innerHTML = '<p style="color:var(--muted)">No bookings yet.</p>';
+        bookedCountEl.textContent = 0;
+        cancelledCountEl.textContent = 0;
+        return;
+      }
+
+      // compute cancelled count if booking object includes status
+      cancelledCount = bookings.filter(b => (b.STATUS && b.STATUS.toLowerCase() === 'cancelled') || (b.CANCELLED === 1)).length;
+      bookedCountEl.textContent = bookings.length;
+      cancelledCountEl.textContent = cancelledCount;
+
+      bookingsList.innerHTML = bookings.map(b => {
+        const id = b.BOOKING_ID || b.id || '0';
+        const title = b.TITLE || b.title || 'Event';
+        const date = b.EVENT_DATE || b.eventDate || b.date || '';
+        const venue = b.VENUE || b.venue || '';
+        const tickets = b.TICKETS || b.tickets || 1;
+        const bookedAt = b.BOOKED_AT || b.bookedAt || '';
+        return `
+          <div class="event-item">
+            <h4>${escapeHtml(title)}</h4>
+            <small>${escapeHtml(date)} • ${escapeHtml(venue)}</small>
+            <small>Tickets: ${tickets} | Booked on: ${escapeHtml(bookedAt)}</small>
+            <div style="margin-top:8px;">
+              <button class="btn btn-danger" onclick="cancelBooking('${id}')">Cancel</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Cancel booking (uses relative path)
+    window.cancelBooking = async function(id) {
+      if (!confirm('Are you sure you want to cancel this booking?')) return;
+      try {
+        const res = await fetch(`/cancelBooking/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        const data = await res.json();
+        showMsg(data.message || 'Booking cancelled.');
+        // re-load bookings
+        await loadBookings();
+      } catch (err) {
+        console.error('Cancel booking failed', err);
+        alert('Failed to cancel booking. (server may be down)');
+      }
+    };
+
+    // Simple bar chart using canvas (no libraries)
+    function updateChart() {
+      const booked = bookings.length || 0;
+      const cancelled = cancelledCount || 0;
+      const canvas = $('ticketsChart');
+      const ctx = canvas.getContext('2d');
+      // clear
+      ctx.clearRect(0,0,canvas.width, canvas.height);
+      // draw labels
+      const w = canvas.width, h = canvas.height;
+      const padding = 20;
+      const barWidth = 80;
+      const maxVal = Math.max(booked, cancelled, 1);
+      // booked bar (left)
+      const bookedH = Math.round((h - padding*2) * (booked / maxVal));
+      const cancelledH = Math.round((h - padding*2) * (cancelled / maxVal));
+      const leftX = w/2 - barWidth - 10;
+      const rightX = w/2 + 10;
+      // shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.2)';
+      ctx.fillRect(leftX+3, h-padding-bookedH+3, barWidth, bookedH);
+      ctx.fillRect(rightX+3, h-padding-cancelledH+3, barWidth, cancelledH);
+      // booked bar
+      ctx.fillStyle = '#00b4d8';
+      ctx.fillRect(leftX, h-padding-bookedH, barWidth, bookedH);
+      // cancelled bar
+      ctx.fillStyle = '#D5003A';
+      ctx.fillRect(rightX, h-padding-cancelledH, barWidth, cancelledH);
+      // labels
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.font = '14px Poppins, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Booked', leftX + barWidth/2, h - padding + 16);
+      ctx.fillText('Cancelled', rightX + barWidth/2, h - padding + 16);
+      // values
+      ctx.fillStyle = '#fff';
+      ctx.fillText(String(booked), leftX + barWidth/2, h - padding - bookedH - 8);
+      ctx.fillText(String(cancelled), rightX + barWidth/2, h - padding - cancelledH - 8);
+    }
+
+    // small helper to avoid XSS when injecting booking titles
+    function escapeHtml(s) {
+      if (!s && s !== 0) return '';
+      return String(s).replace(/[&<>"']/g, function (m) {
+        return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[m];
+      });
+    }
+
+    // initial load
+    loadBookings();
+
+    // If you also want to fetch user profile info from server (optional),
+    // attempt that, but fall back to localStorage values
+    (async function loadProfileFromServer(){
+      try {
+        const res = await fetch(`/getUser/${encodeURIComponent(email)}`);
+        if (!res.ok) throw new Error('no profile');
+        const d = await res.json();
+       if (d && (d.name || d.username)) {
+  const display = d.name || d.username;
+  profileName.textContent = display;
+  userNameEl.textContent = display;
+  avatarEl.textContent = initialsFromName(display);
+          // member since
+          if (d.memberSince) {
+            // put into small stat
+            $('activeMembership').textContent = 'Member • ' + d.memberSince;
+          }
+        }
+      } catch (err) {
+        // ignore; we already set values from localStorage
+        console.warn('Profile server fetch failed:', err);
+      } finally {
+        updateChart();
+      }
+    })();
+
+  })();
+  </script>
+
+</body>
+</html>

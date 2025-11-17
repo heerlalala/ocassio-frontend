@@ -1,0 +1,517 @@
+/* Reset */
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #0d1b2a; 
+  color: #e0e0e0; ; 
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* small utility container to center content */
+.container {
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+body.light-mode {
+  background: #f6f8fa;
+  color: #111;
+}
+
+/* Navbar */
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: navy;
+  color: white;
+  padding: 15px 50px;
+  flex-wrap: wrap;
+  transition: background 0.5s ease;
+  border-bottom: 1px solid #0d1b2a;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+  }
+
+  body.light-mode header {
+    background: #1976d2;
+  }
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white; 
+}
+
+/* Nav Links */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  color: dodgerblue; 
+}
+
+/* --- Dropdown Menu Styles --- */
+
+/* Parent container for the dropdown */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* The button/link that triggers the dropdown */
+.dropbtn {
+    /* Uses existing nav ul li a styles, but ensures the pointer is visible */
+    cursor: pointer;
+}
+
+/* The actual menu content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    /* Positioning directly below the link */
+    top: 100%; 
+    left: 0;
+    
+    /* Dark background for the dropdown box */
+    background-color: navy; 
+    min-width: 180px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.8);
+    z-index: 100; /* Ensure it floats above other content */
+    border-radius: 4px;
+    padding: 8px 0;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: white; /* White text on navy background */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block; /* Makes each link take up a full line */
+    text-align: left;
+    transition: background-color 0.3s;
+    font-weight: 400;
+}
+
+/* Hover style for individual links in the dropdown */
+.dropdown-content a:hover {
+    background-color:#1976d2; /* Slightly darker navy hover */
+    color: white;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Optional: Ensure the dropdown button stays highlighted when hovering over it or the content */
+.dropdown:hover .dropbtn {
+    color: white; 
+}
+
+/* Ticket Button */
+.ticket-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  background: navy; 
+  color: white;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.8);
+}
+
+.ticket-btn:visited {
+  color: white; /* Ensure text remains white */
+  background: dodgerblue; 
+  text-decoration: none; /* Keep the underline removed */
+}
+
+.ticket-btn:hover {
+  background: dodgerblue; 
+  transform: translateY(-2px);
+}
+
+/* Mode Toggle */
+.mode-toggle {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s, color 0.5s ease;
+
+}
+.mode-toggle:hover {
+  transform: scale(1.2);
+}
+
+body.light-mode .mode-toggle {
+  color: #fff;
+}
+
+/* Hero Section - Simplified (Search Bar removed) */
+.hero {
+  position: relative;
+  height: 500px;
+  background: url('hero-bg.jpg') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  background-color: #0d1b2a ; /* User's color */
+  padding: 30px; /* Increased padding */
+  border-radius: 10px;
+  z-index: 10;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: white;
+  text-shadow: 4px 4px 6px #07107a;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: white; 
+}
+
+/* Horizontal Moving Text (Marquee) */
+.hero-marquee {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.9);
+  border-top: 1px solid dodgerblue;
+  border-bottom: 1px solid dodgerblue;
+}
+.marquee-track {
+  display: flex;
+  gap: 50px;
+  animation: scroll-left 20s linear infinite;
+}
+.marquee-item {
+  color: navy;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  padding: 10px 20px;
+}
+@keyframes scroll-left {
+  0% { 
+    transform: translateX(100%); 
+  }
+  100% { 
+    transform: translateX(-100%); 
+  }
+}
+
+/* Search Section - NEW DEDICATED SECTION for full-width bar */
+.search-section {
+  padding: 20px 5%;
+  background: #FFFFFF; /* White background to make the bar pop */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border-bottom: 2px solid #07107a;
+}
+
+/* Search Box - UPDATED for Input and Button */
+.search-box {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 800px; /* Wider search bar */
+  margin: 0 auto;
+}
+
+.search-box input {
+  flex-grow: 1;
+  padding: 15px 20px;
+  border: 2px solid #07107a;
+  border-radius: 5px 0 0 5px; /* Rounded on the left, sharp on the right */
+  font-size: 1.1rem;
+  outline: none;
+  background-color: #FFFFFF;
+  color: #333333;
+  transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+.search-box input::placeholder {
+  color: #AAAAAA;
+}
+
+.search-box input:focus {
+  border-color: #1976d2;
+  box-shadow: dodgerblue;
+}
+
+.search-box button {
+  padding: 15px 30px;
+  border: none;
+  background: dodgerblue; 
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 0 5px 5px 0; /* Rounded on the right, sharp on the left */
+  transition: background-color 0.3s;
+}
+
+.search-box button:hover {
+  background: navy; 
+}
+/* End of new search styles */
+
+/* --- NEW: USER AUTH/PROFILE STYLES --- */
+.user-auth-menu {
+    position: relative;
+    z-index: 10;
+}
+
+.profile-icon {
+    /* Circular "Photo" Style */
+    width: 45px;
+    height: 45px;
+    border-radius: 50%; /* Makes it a perfect circle */
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Placeholder Image URL: Blue background with "JD" initials */
+    background: url('https://placehold.co/45x45/00b4d8/FFFFFF?text=JD') center/cover no-repeat; 
+    border: 3px solid dodgerblue;
+    box-shadow: 0 0 10px rgba(0, 180, 216, 0.5);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.profile-icon:hover {
+    box-shadow: 0 0 15px dodgerblue;
+    transform: scale(1.05);
+}
+
+/* Auth Menu Dropdown (visible when hovering over the profile icon) */
+.auth-menu-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0; /* Align to the right side of the header */
+    margin-top: 10px;
+    background: #001233;
+    min-width: 150px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.8);
+    border: 1px solid #00b4d8;
+    z-index: 50; 
+    overflow: hidden;
+}
+
+/* Show dropdown when hovering over the menu container */
+.user-auth-menu:hover .auth-menu-dropdown {
+    display: block;
+}
+
+.auth-menu-dropdown a {
+    color: white;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    text-align: right;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.auth-menu-dropdown a:hover {
+    background-color: navy;
+    color: dodgerblue;
+}
+
+/* Events */
+.events {
+  padding: 50px 5%;
+}
+.events h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: royalblue;
+  text-shadow: 2px 2px 3px #07107a;
+}
+.event-scroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: navy white; 
+  padding-bottom: 10px;
+}
+.event-card {
+  min-width: 250px;
+  background: #101830; 
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid transparent;
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  cursor: pointer;
+}
+.event-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  display: block;
+}
+.event-card h3 {
+  font-size: 1.4rem;
+  margin: 10px 15px 5px;
+  color: white; 
+}
+.event-card p {
+  margin: 0 15px 10px;
+  color: #666666;
+  font-size: 0.9rem;
+}
+.event-card .tag {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin: 0 15px 15px;
+  color: white;
+}
+
+.tag.movies { background-color: dodgerblue; } 
+.tag.activities { background-color: dodgerblue; } 
+.tag.events { background-color: dodgerblue; }
+.tag.dining { background-color: dodgerblue; }
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border-color: #101830;
+}
+
+/* Categories */
+.categories {
+  padding: 50px 5%;
+}
+.categories h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: royalblue;
+  text-decoration: none;
+  text-shadow: 2px 2px 3px #07107a;
+}
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+.category-card {
+  background: #FFFFFF; /* White card background */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333333;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, transform 0.3s;
+  cursor: pointer;
+  border: 1px solid skyblue;
+}
+.category-card:hover {
+  background-color: skyblue; 
+  transform: translateY(-3px);
+  color: #333333; /* Dark text on hover for contrast */
+}
+
+/* Styling for the link inside the category cards (e.g., the 'EVENTS' link) */
+.category-card a,
+.category-card a:visited,
+.category-card a:link {
+/* Fix 1: Remove the underline for all states */
+text-decoration: none;
+/* Fix 2: Force the color to match the surrounding text, overriding the purple/blue link colors */
+color: inherit; 
+}
+
+/* Footer */
+footer {
+  background: #000814;
+  color: #9fb0bf;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 40px;
+}
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 15px 20px;
+  }
+  nav ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    gap: 15px;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .events, .categories {
+    padding: 30px 5%;
+  }
+  /* Search Box Stacked on Mobile */
+  .search-box {
+    flex-direction: column;
+    max-width: 90%;
+  }
+  .search-box input {
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  .search-box button {
+    border-radius: 5px;
+  }
+
+  .footer-content {
+    flex-direction: center;
+  }
+}

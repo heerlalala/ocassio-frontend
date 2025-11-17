@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCCASIO | Organizer Dashboard</title>
+  <link rel="stylesheet" href="home.css">
+  <style>
+    body {
+      background: #0d1b2a;
+      color: white;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #001233;
+      padding: 15px 5%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: white;
+    }
+    .logout-btn {
+      padding: 10px 20px;
+      background: #D5003A;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-weight: 600;
+    }
+    .logout-btn:hover {
+      background: #A3002B;
+    }
+    main {
+      padding: 50px 5%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .dashboard-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .dashboard-header h1 {
+      font-size: 2.5rem;
+      color: #00b4d8;
+    }
+   .info-card {
+  background: #001845;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 180, 216, 0.1);
+  border: 1px solid rgba(0, 180, 216, 0.2);
+  padding: 30px;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* ================================
+   GLOBAL CARD SPACING + FORM DESIGN
+   ================================ */
+
+/* Space between info-cards */
+.info-card {
+  background: #001845;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 180, 216, 0.1);
+  border: 1px solid rgba(0, 180, 216, 0.2);
+  padding: 30px;
+  margin-bottom: 40px; /* 🧱 adds space between cards */
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.info-card:hover {
+  border-color: rgba(0, 180, 216, 0.5);
+  box-shadow: 0 0 25px rgba(0, 180, 216, 0.3);
+}
+
+/* Headings inside info-cards */
+.info-card h3 {
+  color: #00b4d8;
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 25px;
+  border-bottom: 2px solid rgba(0, 180, 216, 0.3);
+  padding-bottom: 8px;
+  letter-spacing: 0.5px;
+}
+
+/* ================================
+   ADD NEW EVENT FORM STYLING
+   ================================ */
+
+#eventForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-weight: 600;
+  font-size: 15px;
+  color: #c8d7e1;
+  margin-left: 2px;
+}
+
+/* Ticket price field styling (matches all inputs) */
+.input-group input[type="number"] {
+  background: #0d1b2a;
+  border: 1px solid #1a3a5e;
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 12px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.input-group input[type="number"]:focus {
+  border-color: #00b4d8;
+  box-shadow: 0 0 8px rgba(0, 180, 216, 0.4);
+  outline: none;
+}
+
+.input-group input[type="text"],
+.input-group input[type="date"],
+.input-group textarea {
+  background: #0d1b2a;
+  border: 1px solid #1a3a5e;
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 12px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.input-group input[type="date"]:focus {
+  color: white;
+  border-color: #00b4d8;
+  box-shadow: 0 0 8px rgba(0, 180, 216, 0.4);
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: #00b4d8;
+  box-shadow: 0 0 6px rgba(0, 180, 216, 0.4);
+  outline: none;
+}
+
+/* ===== Custom Calendar Icon (Date Picker) ===== */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* makes the icon white */
+  cursor: pointer;
+  transition: filter 0.3s ease;
+}
+
+input[type="date"]:hover::-webkit-calendar-picker-indicator {
+  filter: invert(73%) sepia(92%) saturate(400%) hue-rotate(150deg) brightness(110%) contrast(105%);
+  /* this makes it glow cyan-blue (#00b4d8 tone) on hover */
+}
+
+
+/* ================================
+   CUSTOM FILE INPUT
+   ================================ */
+
+.input-group input[type="file"] {
+  display: none; /* hide default file input */
+}
+
+.input-group label[for="image"]::before {
+  content: "📁 Choose File";
+  display: inline-block;
+  background: linear-gradient(90deg, #00b4d8, #0077b6);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 1px solid #009ac2;
+  box-shadow: 0 4px 10px rgba(0, 180, 216, 0.3);
+}
+
+.input-group label[for="image"]:hover::before {
+  background: linear-gradient(90deg, #009ac2, #005f99);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(0, 180, 216, 0.4);
+}
+
+/* File preview box */
+#imagePreviewContainer {
+  background: rgba(0, 20, 40, 0.6);
+  border: 1px solid #1a3a5e;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+#imagePreview {
+  display: none;
+  max-width: 250px;
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 0 0 15px rgba(0, 180, 216, 0.3);
+  transition: opacity 0.3s ease;
+}
+
+/* ================================
+   SUBMIT BUTTON
+   ================================ */
+.auth-btn {
+  background: linear-gradient(90deg, #00b4d8, #0077b6);
+  color: #ffffff;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 0;
+  font-size: 1rem;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(0, 180, 216, 0.4);
+}
+
+.auth-btn:hover {
+  background: linear-gradient(90deg, #009ac2, #005f99);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 180, 216, 0.6);
+}
+
+
+    .info-card h3 {
+      color: dodgerblue;
+      margin-bottom: 20px;
+      border-bottom: 1px solid navy;
+      padding-bottom: 10px;
+    }
+    .info-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed #0d1b2a;
+    }
+    .info-line strong {
+      color: white;
+      font-weight: 600;
+    }
+    .info-line span {
+      color: #adb5bd;
+    }
+    #message-box {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .success {
+      background-color: #38b000;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">OCCASIO | Organizer</div>
+    <button id="logoutButton" class="logout-btn">Logout</button>
+  </header>
+
+<main>
+  <div class="dashboard-header">
+    <h1 id="welcome-text">Welcome, Organizer!</h1>
+    <p>Manage your events and profile from here.</p>
+  </div>
+
+  <div class="info-card">
+    <h3>Organizer Details</h3>
+    <div class="info-line"><strong>Organization Name</strong> <span id="org-name">Loading...</span></div>
+    <div class="info-line"><strong>Email</strong> <span id="org-email">Loading...</span></div>
+    <div class="info-line"><strong>Member Since</strong> <span id="org-date">Loading...</span></div>
+  </div>
+
+  <!-- ✅ Add Event Section -->
+  <div class="info-card">
+    <h3>Add New Event</h3>
+<form id="eventForm" enctype="multipart/form-data">
+  <div class="input-group">
+    <label>Title</label>
+    <input type="text" id="title" name="title" required>
+  </div>
+
+  <div class="input-group">
+    <label>Description</label>
+    <textarea id="description" name="description" rows="3"
+      style="width:100%;padding:10px;border-radius:5px;background:#0d1b2a;color:white;"></textarea>
+  </div>
+
+  <div class="input-group">
+    <label>Date</label>
+    <input type="date" id="event_date" name="event_date" required>
+  </div>
+
+  <div class="input-group">
+    <label>Venue</label>
+    <input type="text" id="venue" name="venue" required>
+  </div>
+
+  <div class="input-group">
+  <label>Ticket Price (₹)</label>
+  <input type="number" id="price" name="price" placeholder="Enter base ticket price" min="0" required>
+</div>
+
+  <div class="input-group">
+    <label>Category</label>
+    <input type="text" id="category" name="category" placeholder="e.g. music, workshop, sports" required>
+  </div>
+
+ <div class="input-group">
+  <label>Event Image</label>
+  
+  <!-- ✅ Hidden file input -->
+  <input type="file" id="image" name="image" accept="image/*" hidden>
+  
+  <!-- ✅ Custom file button -->
+  <label for="image" class="custom-file-btn"></label>
+
+  <!-- ✅ Preview area -->
+  <div id="imagePreviewContainer">
+    <img id="imagePreview" src="" alt="Preview">
+  </div>
+</div>
+
+
+  <button type="submit" class="auth-btn" style="margin-top:15px;">Add Event</button>
+</form>
+
+  </div>
+
+  <!-- ✅ Event Bookings -->
+<div class="info-card">
+  <h3>Event Bookings</h3>
+  <div id="bookingList">Loading bookings...</div>
+</div>
+
+<!-- ✅ Payments Overview -->
+<div class="info-card">
+  <h3>Payments Received</h3>
+  <div id="paymentList">Loading payments...</div>
+</div>
+
+
+  <!-- ✅ Display Events -->
+  <div class="info-card">
+    <h3>Your Events</h3>
+    <div id="eventList">Loading events...</div>
+  </div>
+
+  <div id="message-box"></div>
+</main>
+
+<script>
+  const loggedInOrganizer = localStorage.getItem("loggedInOrganizer");
+  const messageBox = document.getElementById("message-box");
+  const eventList = document.getElementById("eventList");
+
+  if (!loggedInOrganizer) {
+    alert("Please log in first.");
+    window.location.href = "login.html";
+  }
+
+  // ✅ Load organizer details
+  async function loadOrganizerDetails() {
+    const email = (loggedInOrganizer || "").trim().toLowerCase();
+
+    try {
+      const response = await fetch(`http://localhost:5000/getOrganizer/${email}`);
+      const data = await response.json();
+
+      if (response.ok && data.org_name) {
+        document.getElementById("welcome-text").textContent = `Welcome, ${data.org_name}!`;
+        document.getElementById("org-name").textContent = data.org_name;
+        document.getElementById("org-email").textContent = email;
+        document.getElementById("org-date").textContent = data.memberSince || "N/A";
+        loadEvents();
+        loadBookings();
+        loadPayments();
+      } else {
+        showMessage("⚠️ Organizer not found or invalid data.", "error");
+      }
+    } catch (err) {
+      console.error("❌ Error loading organizer:", err);
+      showMessage("Server error fetching details.", "error");
+    }
+  }
+
+  // ✅ Add event with image upload
+  document.getElementById("eventForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("organizer_email", loggedInOrganizer);
+    formData.append("title", document.getElementById("title").value);
+    formData.append("description", document.getElementById("description").value);
+    formData.append("event_date", document.getElementById("event_date").value);
+    formData.append("venue", document.getElementById("venue").value);
+    formData.append("category", document.getElementById("category").value);
+    formData.append("price", document.getElementById("price").value);
+
+    const imageFile = document.getElementById("image").files[0];
+    if (imageFile) formData.append("image", imageFile);
+
+    try {
+      const response = await fetch("http://localhost:5000/addEvent", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        showMessage(data.message, "success");
+        document.getElementById("eventForm").reset();
+        document.getElementById("imagePreview").style.display = "none";
+        loadEvents();
+      } else {
+        showMessage(data.message || "Failed to add event.", "error");
+      }
+    } catch (err) {
+      console.error("❌ Error:", err);
+      showMessage("Error adding event.", "error");
+    }
+  });
+
+  // ✅ Live image preview
+  document.getElementById("image").addEventListener("change", function () {
+    const file = this.files[0];
+    const preview = document.getElementById("imagePreview");
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    } else {
+      preview.style.display = "none";
+    }
+  });
+
+  // ✅ Fetch events (with Edit/Delete)
+  async function loadEvents() {
+    try {
+      const response = await fetch(`http://localhost:5000/getEvents/${loggedInOrganizer}`);
+      const events = await response.json();
+
+      if (!events || events.length === 0) {
+        eventList.innerHTML = "<p>No events yet.</p>";
+        return;
+      }
+
+      eventList.innerHTML = events.map(event => `
+        <div class="event-card" 
+             style="padding:15px;margin-bottom:15px;background:#002855;border-radius:8px;">
+          <strong style="font-size:1.2rem;">${event.TITLE}</strong><br>
+          <small>${event.EVENT_DATE} | ${event.VENUE}</small><br>
+          <p>${event.DESCRIPTION || ""}</p>
+          <b>Price: ₹${event.PRICE || "N/A"}</b><br>
+          <b>Category:</b> ${event.CATEGORY || "N/A"}
+
+          <div style="margin-top:12px;">
+            <button class="edit-btn" 
+                    onclick="editEvent('${event.EVENT_ID}', '${event.TITLE}', '${event.DESCRIPTION || ""}', '${event.EVENT_DATE}', '${event.VENUE}', '${event.PRICE}', '${event.CATEGORY || ""}')"
+                    style="background:#00b4d8;color:white;border:none;padding:8px 15px;border-radius:6px;margin-right:10px;cursor:pointer;">✏️ Edit</button>
+            <button class="delete-btn" 
+                    onclick="deleteEvent('${event.EVENT_ID}')"
+                    style="background:#d00000;color:white;border:none;padding:8px 15px;border-radius:6px;cursor:pointer;">🗑️ Delete</button>
+          </div>
+        </div>
+      `).join("");
+    } catch (err) {
+      console.error("❌ Error loading events:", err);
+      eventList.innerHTML = "<p>⚠️ Failed to load events.</p>";
+    }
+  }
+
+  // ✅ Edit event (uses correct backend route)
+  async function editEvent(id, title, description, date, venue, price, category) {
+    const newTitle = prompt("Edit Event Title:", title);
+    if (newTitle === null) return;
+
+    const newDesc = prompt("Edit Description:", description);
+    const newDate = prompt("Edit Date (YYYY-MM-DD):", date);
+    const newVenue = prompt("Edit Venue:", venue);
+    const newPrice = prompt("Edit Ticket Price:", price);
+    const newCategory = prompt("Edit Category:", category);
+
+    const updatedEvent = {
+      title: newTitle,
+      description: newDesc,
+      event_date: newDate,
+      venue: newVenue,
+      price: newPrice,
+      category: newCategory
+    };
+
+    try {
+      const response = await fetch(`http://localhost:5000/updateEvent/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedEvent)
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        showMessage(data.message || "Event updated successfully!", "success");
+        loadEvents();
+      } else {
+        showMessage(data.message || "Failed to update event.", "error");
+      }
+    } catch (err) {
+      console.error("❌ Error updating event:", err);
+      showMessage("Server error while updating event.", "error");
+    }
+  }
+
+  // ✅ Delete event
+  async function deleteEvent(eventId) {
+    if (!confirm("Are you sure you want to delete this event?")) return;
+
+    try {
+      const response = await fetch(`http://localhost:5000/deleteEvent/${eventId}`, {
+        method: "DELETE"
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        showMessage(data.message || "Event deleted successfully!", "success");
+        loadEvents();
+      } else {
+        showMessage(data.message || "Failed to delete event.", "error");
+      }
+    } catch (err) {
+      console.error("❌ Error deleting event:", err);
+      showMessage("Server error while deleting event.", "error");
+    }
+  }
+
+  // ✅ Fetch bookings
+  async function loadBookings() {
+    try {
+      const response = await fetch(`http://localhost:5000/getOrganizerBookings/${loggedInOrganizer}`);
+      const data = await response.json();
+
+      if (!data || data.length === 0) {
+        document.getElementById("bookingList").innerHTML = "<p>No bookings yet.</p>";
+        return;
+      }
+
+      document.getElementById("bookingList").innerHTML = data.map(b => `
+        <div style="padding:10px;margin-bottom:10px;background:#002855;border-radius:5px;">
+          <strong>${b.TITLE}</strong><br>
+          <span>User: ${b.USER_EMAIL}</span><br>
+          <span>Tickets: ${b.TICKETS}</span><br>
+          <small>${b.BOOKED_AT}</small>
+        </div>
+      `).join("");
+    } catch (err) {
+      console.error("❌ Error fetching bookings:", err);
+    }
+  }
+
+  // ✅ Fetch payments
+  async function loadPayments() {
+    try {
+      const response = await fetch(`http://localhost:5000/getOrganizerPayments/${loggedInOrganizer}`);
+      const data = await response.json();
+
+      if (!data || data.length === 0) {
+        document.getElementById("paymentList").innerHTML = "<p>No payments yet.</p>";
+        return;
+      }
+
+      document.getElementById("paymentList").innerHTML = data.map(p => `
+        <div style="padding:10px;margin-bottom:10px;background:#002855;border-radius:5px;">
+          <strong>${p.EVENT_NAME}</strong><br>
+          <span>From: ${p.USER_EMAIL}</span><br>
+          <span>Seats: ${p.SEAT_NUMBERS || "N/A"}</span><br>
+          <span>Type: ${p.TICKET_TYPE}</span><br>
+          <b>Amount: ₹${p.TOTAL_AMOUNT}</b>
+        </div>
+      `).join("");
+    } catch (err) {
+      console.error("❌ Error fetching payments:", err);
+    }
+  }
+
+  // ✅ Logout
+  document.getElementById("logoutButton").addEventListener("click", () => {
+    localStorage.removeItem("loggedInOrganizer");
+    showMessage("You have been logged out successfully.", "success");
+    setTimeout(() => (window.location.href = "login.html"), 1500);
+  });
+
+  // ✅ Message helper
+  function showMessage(message, type) {
+    messageBox.textContent = message;
+    messageBox.className = type;
+    messageBox.style.display = "block";
+  }
+
+  // ✅ Initialize
+  loadOrganizerDetails();
+</script>
+
+
+</body>
+</html>
